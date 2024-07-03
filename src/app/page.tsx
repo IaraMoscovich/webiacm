@@ -1,47 +1,20 @@
-"use client"
-
 import { createServer } from '@/components/supabase_server_client';
 import Profile from '@/components/upload-image';
-import React from 'react';
-import Header from '../components/Header';
-import { useState } from 'react';
-import "./globals.css"
 
-const HomePage = () => {
-/*   const supabase = createServer();
-  const { data, error } = await supabase.from('medico_users').select('*'); */
+import { postReq } from '@/app/IA_connection/IA'
 
-/*   if (error) {
-    console.error(error);
-    return <div>Error fetching data</div>;
-  }
- */
-  
-  const [open, setOpen] = useState(false);
+export default async function Home() {
 
-  const handleToogle = () => {
-    setOpen(!open)
-  }
+  const a = await postReq("hola")
+  //console.log(JSON.stringify(a));
 
-  console.log(open)
+  const supabase = createServer();
+  const { data, error } = await supabase.from("medico_users").select("*")
 
   return (
-    <>
-      <div>
-        <Header />
-  {/*       <pre>{JSON.stringify(data, null, 2)}</pre> */}
-        <Profile />
-        <div className={open ? "open" : "menu-toggle"} id="menu-toggle" onClick={handleToogle}>
-            <div className="bar">HOLA</div>
-            <div className="bar">HELLO</div>
-            <div className="bar">CHAU</div>
-        </div>
-      </div>
-    </>
-    
+    <pre>
+      {JSON.stringify(data, null, 2)}
+      <Profile />
+    </pre>
   );
-};
-
-export default HomePage;
-
-
+}

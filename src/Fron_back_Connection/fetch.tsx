@@ -1,0 +1,1 @@
+/*const staticData = await fetch(`https://...`, { cache: 'force-cache' })*/
