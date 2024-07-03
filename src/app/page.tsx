@@ -1,24 +1,20 @@
 import { createServer } from '@/components/supabase_server_client';
 import Profile from '@/components/upload-image';
-import React from 'react';
-import Header from '../components/Header';
 
-const HomePage = async () => {
+import { postReq } from '@/app/IA_connection/IA'
+
+export default async function Home() {
+
+  const a = await postReq("hola")
+  //console.log(JSON.stringify(a));
+
   const supabase = createServer();
-  const { data, error } = await supabase.from('medico_users').select('*');
-
-  if (error) {
-    console.error(error);
-    return <div>Error fetching data</div>;
-  }
+  const { data, error } = await supabase.from("medico_users").select("*")
 
   return (
-    <div>
-      <Header />
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+    <pre>
+      {JSON.stringify(data, null, 2)}
       <Profile />
-    </div>
+    </pre>
   );
-};
-
-export default HomePage;
+}

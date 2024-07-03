@@ -1,9 +1,36 @@
-IACM
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Sobre el proyecto
+## Getting Started
 
-IACM comienza como un proyecto de 4to año, cuyo objetivo es ayudar a los patólogos para contar las células Ki67, proceso fundamental para definir (via el oncólogo) el tratamiento del paciente con cáncer de mama. Esta herramienta tiene como principal objetivo reducir la demora actual que tiene el conteo manual, dando la posibilidad de que el paciente comience lo antes posible a tratar su enfermedad. También, reduce la tarea de los patólogos, quienes realizan el conteo de forma manual (Según la información brindada, la demora es aproximadamente 15 minutos por biopsia, cuando nuestra IA lo hace en muchísimo menos tiempo). Otra de las ventajas, consiste en minimizar el error humano.
+First, run the development server:
 
-2023 EVOLUTION
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-Durante 4to año, nos enfocamos en realizar el modelo, trabajo que tomó mas de lo esperado dado a que nadie había desarrollado antes un dataset de Ki67 como el que necesitábamos. De todos modos, seguimos continuar con el proyecto, y contactamos a diferentes organizaciones (universidades, laboratorios, etc) tanto en el país como en el exterior, en busca de las imágenes de las biopsias. Finalmente, un investigador de la universidad de Shiraz Medical Sciences, en Iran, nos cedió sus imágenes. Luego de conseguir las mismas notamos que no tenian el formato adecuado para YOLO. Es por eso, que decidimos modificarlo, labeleando nuevamente, célula por célula, 60 imágenes (que contienen +300 células cada una). Eso produjo una demora en la entrega completa del proyecto. Finalizada esa tarea, pudimos programar un modelo que detectaba el 99% de las células en cada imágen. Es por esto, que nos motivamos a retomar IACM este año, teniendo como núcleo la idea de reforzar todas las areas el desarrollo, generando así una herramienta rápida, eficaz, y 100% funcional.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
