@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-export async function postReq(body: string) {
+export async function postReq(body: any) {
   try {
     const response = await axios.post("https://fastapi-example-endl.onrender.com/upload-image", { data: body });
     return response.data; // Devuelve los datos de la respuesta correctamente

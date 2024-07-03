@@ -4,6 +4,7 @@ import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
 
 export default function Profile() {
+  
     const supabase = createBrowser();
   
     // Handle file upload event
@@ -28,7 +29,7 @@ export default function Profile() {
     return (
       <div>
         <h1>Upload Profile Photo</h1>
-        <input type="file" onChange={uploadFile} />
+        <input id="img"  name="img" type="file" onChange={uploadFile} />
       </div>
     );
   }
