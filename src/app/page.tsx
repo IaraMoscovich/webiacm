@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <pre>
       {JSON.stringify(data, null, 2)}
-        <Profile />
+        <Profile/>
     </pre>
   );
 }
