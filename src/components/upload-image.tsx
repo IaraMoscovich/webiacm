@@ -15,7 +15,7 @@ export default function Profile() {
         // Crear FormData
         const formData = new FormData();
         formData.append('file', file as Blob); // Agregar el archivo al FormData
-
+      
         // Enviar FormData al servidor
         try {
             const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image', {
