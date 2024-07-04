@@ -1,4 +1,4 @@
-"use client"
+
 import { createServer } from '@/components/supabase_server_client';
 import Profile from '@/components/upload-image';
 import { useState } from 'react';
