@@ -4,9 +4,9 @@ import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
 
 export default function Profile() {
-  
+
     const supabase = createBrowser();
-  
+
     // Handle file upload event
     const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -15,11 +15,10 @@ export default function Profile() {
         // Crear FormData
         const formData = new FormData();
         formData.append('file', file as Blob); // Agregar el archivo al FormData
-        alert('hola')
+
         // Enviar FormData al servidor
         try {
             const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image/', {
-            //const response = await fetch('http://127.0.0.1:8000/upload-image/', {
                 method: 'POST',
                 body: formData
             });
@@ -34,11 +33,13 @@ export default function Profile() {
             console.error('Error uploading file:', error);
         }
     };
-  
+
     return (
-      <div>
-        <h1>Upload Profile Photo</h1>
-        <input id="img" name="img" type="file" onChange={uploadFile} />
-      </div>
+        <div>
+            <input id="file-input" type="file" onChange={uploadFile} style={{ display: 'none' }} />
+            <label htmlFor="file-input" style={{ cursor: 'pointer' }}>
+                <img src="/imagenes/Subir Imagen Tmñ Original.png" alt="Seleccionar archivo" style={{ width: '200px', height: 'auto' }} />
+            </label>
+        </div>
     );
 }
