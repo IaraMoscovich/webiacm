@@ -7,7 +7,13 @@ import "./globals.css"
 
 import { postReq } from '@/app/IA_connection/IA'
 
-export default async function Home() {
+export default async function Home({
+  ki_positivos, 
+  ki_negativos
+} : {
+  ki_positivos : number
+  ki_negativos : number
+}) {
 
   const supabase = createServer();
   const { data, error } = await supabase.from("medico_users").select("*")
@@ -37,12 +43,30 @@ export default async function Home() {
               width={800}
               height={150}
             />
-            <Image
-              src={"/imagenes/Dashboard.png"}
-              alt=''
-              width={800}
-              height={150}
-            />
+            <div>
+              <h1>Dashboard</h1>
+              <div>
+                <div>
+                  <h2>{ki_positivos}</h2>
+                  <h3>Ki-67 Positivos</h3>
+                </div>
+                <div>
+                  <h2>{ki_positivos * ki_negativos / 100}</h2>
+                  <h3>Células Positivas</h3>
+                </div>
+                <div>
+                  <h2>{ki_negativos}</h2>
+                  <h3>Ki-67 Negativos</h3>
+                </div>
+                <div>
+                  <Image
+                    src={""}
+                    alt=''
+                  />
+                  <h3>Gráfico</h3>
+                </div>
+              </div>
+            </div>
           </section>
           <div className="container">
               <Profile/>
