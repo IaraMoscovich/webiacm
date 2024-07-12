@@ -1,10 +1,7 @@
-"use client"
-
 import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
 
 export default function Profile() {
-
     const supabase = createBrowser();
 
     // Handle file upload event
@@ -20,7 +17,12 @@ export default function Profile() {
         try {
             const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image/', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: {
+                    // Asegúrate de configurar correctamente el tipo de contenido
+                    // dependiendo de lo que el servidor espera
+                    'Content-Type': 'multipart/form-data'
+                }
             });
 
             if (!response.ok) {
