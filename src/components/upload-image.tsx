@@ -1,10 +1,43 @@
 import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
+import React, { useState } from 'react';
 
+
+// Componente ImageUploader
+export function ImageUploader() {
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0]; // Obtiene el archivo seleccionado
+        if (file) {
+            // Crea una URL de objeto para la imagen
+            const objectUrl = URL.createObjectURL(file);
+            setImageUrl(objectUrl);
+
+            // Limpia la URL del objeto cuando el componente se desmonte
+            return () => {
+                URL.revokeObjectURL(objectUrl);
+            };
+        }
+    };
+
+    return (
+        <div>
+            <input id="file-input" type="file" onChange={handleFileChange} style={{ display: 'none' }} />
+            <label htmlFor="file-input" style={{ cursor: 'pointer' }}>
+                <img src="/imagenes/Subir Imagen Tmñ Original.png" alt="Seleccionar archivo" style={{ width: '200px', height: 'auto' }} />
+            </label>
+            {/* Muestra la imagen seleccionada si existe */}
+            {imageUrl && <img src={imageUrl} alt="Imagen seleccionada" style={{ marginTop: '20px', maxWidth: '100%' }} />}
+        </div>
+    );
+}
+
+// Exportación por defecto del componente Profile
 export default function Profile() {
     const supabase = createBrowser();
 
-    // Handle file upload event
+    // Manejar el evento de carga de archivos
     const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         const bucket = "FotosDB";
@@ -19,8 +52,6 @@ export default function Profile() {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    // Asegúrate de configurar correctamente el tipo de contenido
-                    // dependiendo de lo que el servidor espera
                     'Content-Type': 'multipart/form-data'
                 }
             });
@@ -38,10 +69,8 @@ export default function Profile() {
 
     return (
         <div>
-            <input id="file-input" type="file" onChange={uploadFile} style={{ display: 'none' }} />
-            <label htmlFor="file-input" style={{ cursor: 'pointer' }}>
-                <img src="/imagenes/Subir Imagen Tmñ Original.png" alt="Seleccionar archivo" style={{ width: '200px', height: 'auto' }} />
-            </label>
+            <h1>Profile Page</h1>
+            <ImageUploader />
         </div>
     );
 }
