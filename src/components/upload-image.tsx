@@ -41,7 +41,7 @@ export default function Profile() {
     const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         const bucket = "FotosDB";
-
+            
         // Crear FormData
         const formData = new FormData();
         formData.append('file', file as Blob); // Agregar el archivo al FormData
@@ -74,3 +74,32 @@ export default function Profile() {
         </div>
     );
 }
+
+/*async function uploadFile(file: File): Promise<string> {
+    if (!file) {
+      return 'Please select a file!';
+    }
+  
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    try {
+      const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image/', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        return 'Upload successful: ' + JSON.stringify(data);
+      } else {
+        return 'Upload failed: ' + response.statusText;
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        return 'Error: ' + error.message;
+      } else {
+        return 'Unexpected error occurred';
+      }
+    }
+}*/
