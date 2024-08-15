@@ -46,9 +46,9 @@ export default function Profile() {
         const formData = new FormData();
         formData.append('file', file as Blob); // Agregar el archivo al FormData
 
-        // Enviar FormData al servidor, https://fastapi-example-endl.onrender.com/upload-image/
+        // Enviar FormData al servidor, http://localhost:8000https://fastapi-example-endl.onrender.com/upload-image/
         try {
-            const response = await fetch('http://localhost:8000/', {
+            const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image', {
                 method: 'POST',
                 body: formData,
                 headers: {
