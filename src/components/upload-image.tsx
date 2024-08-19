@@ -40,6 +40,11 @@ export default function Profile() {
     const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         const bucket = "FotosDB";
+
+        const { data, error } = await supabase.storage
+        .from(bucket)
+        .upload(file.name, file as File);
+  
             
         // Crear FormData
         const formData = new FormData();
