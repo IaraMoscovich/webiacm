@@ -45,6 +45,11 @@ export default function Profile() {
         .from(bucket)
         .upload(file.name, file as File);
   
+
+        if(error) {
+            alert('Error uploading file.');
+            return;
+        }
             
         // Crear FormData
         const formData = new FormData();
