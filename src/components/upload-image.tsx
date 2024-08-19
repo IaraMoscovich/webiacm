@@ -2,7 +2,6 @@ import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
 import React, { useState } from 'react';
 
-
 // Componente ImageUploader
 export function ImageUploader() {
     const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -48,7 +47,7 @@ export default function Profile() {
 
         // Enviar FormData al servidor, http://localhost:8000https://fastapi-example-endl.onrender.com/upload-image/
         try {
-            const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image/', {
+            const response = await fetch ('https://fastapi-example-endl.onrender.com/upload-image/', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -66,7 +65,7 @@ export default function Profile() {
             console.error('Error uploading file:', error);
         }
     };
-
+    
     return (
         <div>
             <h1>Profile Page</h1>

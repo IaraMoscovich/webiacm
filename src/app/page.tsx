@@ -8,8 +8,6 @@ import "./globals.css"
 import { postReq } from '@/app/IA_connection/IA'
 
 export default async function Home({
-  ki_positivos, 
-  ki_negativos
 } : {
   ki_positivos : number
   ki_negativos : number
@@ -47,15 +45,15 @@ export default async function Home({
               <h1>Dashboard</h1>
               <div>
                 <div>
-                  <h2>{ki_positivos}</h2>
+                  <h2>{0}</h2>
                   <h3>Ki-67 Positivos</h3>
                 </div>
                 <div>
-                  <h2>{ki_positivos * ki_negativos / 100}</h2>
+                  <h2>{0}</h2>
                   <h3>Células Positivas</h3>
                 </div>
                 <div>
-                  <h2>{ki_negativos}</h2>
+                  <h2>{0}</h2>
                   <h3>Ki-67 Negativos</h3>
                 </div>
                 <div>
