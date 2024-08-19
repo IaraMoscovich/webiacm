@@ -48,7 +48,7 @@ export default function Profile() {
 
         // Enviar FormData al servidor, http://localhost:8000https://fastapi-example-endl.onrender.com/upload-image/
         try {
-            const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image', {
+            const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image/', {
                 method: 'POST',
                 body: formData,
                 headers: {
