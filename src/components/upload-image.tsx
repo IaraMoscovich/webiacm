@@ -77,6 +77,7 @@ export function ImageUploader() {
     return (
         <div>
             <ImageUploader />
+            <input type="file" onChange={uploadFile} />
         </div>
     );
 }
