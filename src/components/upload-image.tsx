@@ -1,5 +1,3 @@
-"use client"
-
 import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
 import React, { useState } from 'react';
@@ -62,7 +60,6 @@ export function ImageUploader() {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'Content-Type': 'multipart/form-data'
                 }
             });
 
