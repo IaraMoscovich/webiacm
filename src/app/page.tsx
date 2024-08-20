@@ -37,12 +37,6 @@ export default async function Home({
               </div>
           </header>
           <section className='imagenes'>
-            <Image
-              src={"/imagenes/Celulas.png"}
-              alt=''
-              width={800}
-              height={150}
-            />
             <div>
               <h1>Dashboard</h1>
               <div>
