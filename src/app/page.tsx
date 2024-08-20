@@ -18,10 +18,9 @@ export default async function Home () {
   }
 
   return (
-    <pre>
-      {JSON.stringify(data, null, 2)}
+    <body>
         <Profile/>
-        <body>
+        <main>
           <header className="header">
               <div className="welcome-message">¡Bienvenida, María Fernanda!</div>
               <div className="menu-toggle" id="menu-toggle">
@@ -35,15 +34,15 @@ export default async function Home () {
               <h1>Dashboard</h1>
               <div>
                 <div>
-                  <h2>{67}</h2>
+                  <h2>67</h2>
                   <h3>Ki-67 Positivos</h3>
                 </div>
                 <div>
-                  <h2>{82%}</h2>
+                  <h2>82%</h2>
                   <h3>Células Positivas</h3>
                 </div>
                 <div>
-                  <h2>{46}</h2>
+                  <h2>46</h2>
                   <h3>Ki-67 Negativos</h3>
                 </div>
                 <div>
@@ -67,7 +66,7 @@ export default async function Home () {
                   />
               </a>
           </div>
-      </body>
-    </pre>
+      </main>
+    </body>
   );
 }
