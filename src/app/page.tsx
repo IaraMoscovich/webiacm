@@ -19,7 +19,6 @@ export default async function Home () {
 
   return (
     <body>
-        <Profile/>
         <main>
           <header className="header">
               <div className="welcome-message">¡Bienvenida, María Fernanda!</div>
