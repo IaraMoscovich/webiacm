@@ -55,8 +55,7 @@ export default async function Home () {
             </div>
           </section>
           <div className="container">
-              <Profile/>
-             <a href="img2" className="img2">
+              <a href="img2" className="img2">
                 <Image
                     src="/imagenes/Eliminar Img Tmñ Originaliacm.png"
                     alt="button"
@@ -64,6 +63,7 @@ export default async function Home () {
                     height={100}
                   />
               </a>
+              <Profile/>
           </div>
       </main>
     </body>
