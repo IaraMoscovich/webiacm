@@ -6,13 +6,7 @@ import { useState } from 'react';
 import "./globals.css"
 
 
-export default async function Home({
-  ki_positivos, 
-  ki_negativos
-} : {
-  ki_positivos : number
-  ki_negativos : number
-}) {
+export default async function Home () {
 
   const supabase = createServer();
   const { data, error } = await supabase.from("medico_users").select("*")
@@ -41,15 +35,15 @@ export default async function Home({
               <h1>Dashboard</h1>
               <div>
                 <div>
-                  <h2>{ki_positivos}</h2>
+                  <h2>{67}</h2>
                   <h3>Ki-67 Positivos</h3>
                 </div>
                 <div>
-                  <h2>{ki_positivos * ki_negativos / 100}</h2>
+                  <h2>{82%}</h2>
                   <h3>Células Positivas</h3>
                 </div>
                 <div>
-                  <h2>{ki_negativos}</h2>
+                  <h2>{46}</h2>
                   <h3>Ki-67 Negativos</h3>
                 </div>
                 <div>
