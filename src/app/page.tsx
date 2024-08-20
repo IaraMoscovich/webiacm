@@ -45,15 +45,12 @@ export default async function Home({
               <h1>Dashboard</h1>
               <div>
                 <div>
-                  <h2>{0}</h2>
                   <h3>Ki-67 Positivos</h3>
                 </div>
                 <div>
-                  <h2>{0}</h2>
                   <h3>Células Positivas</h3>
                 </div>
                 <div>
-                  <h2>{0}</h2>
                   <h3>Ki-67 Negativos</h3>
                 </div>
                 <div>
