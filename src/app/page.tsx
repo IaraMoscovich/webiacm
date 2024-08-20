@@ -5,10 +5,13 @@ import Image from "next/image"
 import { useState } from 'react';
 import "./globals.css"
 
-import { postReq } from '@/app/IA_connection/IA'
 
 export default async function Home({
+  ki_positivos, 
+  ki_negativos
 } : {
+  ki_positivos : number
+  ki_negativos : number
 }) {
 
   const supabase = createServer();
@@ -23,6 +26,7 @@ export default async function Home({
   return (
     <pre>
       {JSON.stringify(data, null, 2)}
+        <Profile/>
         <body>
           <header className="header">
               <div className="welcome-message">¡Bienvenida, María Fernanda!</div>
@@ -43,15 +47,15 @@ export default async function Home({
               <h1>Dashboard</h1>
               <div>
                 <div>
-                  <h2>{0}</h2>
+                  <h2>{ki_positivos}</h2>
                   <h3>Ki-67 Positivos</h3>
                 </div>
                 <div>
-                  <h2>{0}</h2>
+                  <h2>{ki_positivos * ki_negativos / 100}</h2>
                   <h3>Células Positivas</h3>
                 </div>
                 <div>
-                  <h2>{0}</h2>
+                  <h2>{ki_negativos}</h2>
                   <h3>Ki-67 Negativos</h3>
                 </div>
                 <div>
@@ -66,7 +70,7 @@ export default async function Home({
           </section>
           <div className="container">
               <Profile/>
-              <a href="img2" className="img2">
+             <a href="img2" className="img2">
                 <Image
                     src="/imagenes/Eliminar Img Tmñ Originaliacm.png"
                     alt="button"
