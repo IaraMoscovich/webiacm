@@ -61,6 +61,8 @@ export function ImageUploader() {
             const response = await fetch ('https://fastapi-example-endl.onrender.com/upload-image/', {
                 method: 'POST',
                 body: formData,
+                headers: {
+                }
             });
 
             if (!response.ok) {
