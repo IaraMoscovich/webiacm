@@ -24,12 +24,12 @@ export function ImageUploader() {
 
     return (
         <div>
-            <input id="file-input" type="file" onChange={handleFileChange} style={{ display: 'none' }} />
+             {imageUrl && <img src={imageUrl} alt="Imagen seleccionada" style={{ marginTop: '20px', maxWidth: '100%' }} />}
             <label htmlFor="file-input" style={{ cursor: 'pointer' }}>
                 <img src="/imagenes/Subir Imagen Tmñ Original.png" alt="Seleccionar archivo" style={{ width: '200px', height: 'auto' }} />
             </label>
+            <input id="file-input" type="file" onChange={handleFileChange} style={{ display: 'none' }} />
             {/* Muestra la imagen seleccionada si existe */}
-            {imageUrl && <img src={imageUrl} alt="Imagen seleccionada" style={{ marginTop: '20px', maxWidth: '100%' }} />}
         </div>
     );
 }
@@ -77,9 +77,7 @@ export default function Profile() {
     
     return (
         <div>
-           <h1>Profile Page</h1>
             <ImageUploader />
-            <input type="file" onChange={uploadFile} />
         </div>
     );
 }
