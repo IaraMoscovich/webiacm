@@ -9,8 +9,6 @@ import { postReq } from '@/app/IA_connection/IA'
 
 export default async function Home({
 } : {
-  ki_positivos : number
-  ki_negativos : number
 }) {
 
   const supabase = createServer();
