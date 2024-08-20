@@ -63,7 +63,6 @@ export default async function Home () {
                     height={100}
                   />
               </a>
-              <Profile/>
           </div>
       </main>
     </body>
