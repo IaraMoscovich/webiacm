@@ -15,7 +15,6 @@ export function ImageUploader() {
             const objectUrl = URL.createObjectURL(file);
             setImageUrl(objectUrl);
 
-            // Limpia la URL del objeto cuando el componente se desmonte
             return () => {
                 URL.revokeObjectURL(objectUrl);
             };
@@ -35,8 +34,8 @@ export function ImageUploader() {
 }
 
 // Exportación por defecto del componente Profile
-export default function Profile() {
-    const supabase = createBrowser();
+    export default function Profile() {
+        const supabase = createBrowser();
 
     // Manejar el evento de carga de archivos
     const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
