@@ -10,8 +10,8 @@ export default async function Home({
   ki_positivos, 
   ki_negativos
 } : {
-  ki_positivos : number
-  ki_negativos : number
+  ki_positivos : 40
+  ki_negativos : 50
 }) {
 
   const supabase = createServer();
