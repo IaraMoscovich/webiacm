@@ -45,7 +45,7 @@ export default function Profile() {
 
         const { data, error } = await supabase.storage
         .from(bucket)
-        .upload(file.name, file as File);
+        .upload(file!.name, file as File);
   
 
         if(error) {
