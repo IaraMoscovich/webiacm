@@ -1,6 +1,8 @@
+"use client";
+
 import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Componente ImageUploader
 export function ImageUploader() {
@@ -60,9 +62,6 @@ export default function Profile() {
             const response = await fetch ('https://fastapi-example-endl.onrender.com/upload-image/', {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
             });
 
             if (!response.ok) {
@@ -78,8 +77,9 @@ export default function Profile() {
     
     return (
         <div>
-            <h1>Profile Page</h1>
+           <h1>Profile Page</h1>
             <ImageUploader />
+            <input type="file" onChange={uploadFile} />
         </div>
     );
 }
