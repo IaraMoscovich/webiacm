@@ -5,15 +5,8 @@ import Image from "next/image"
 import { useState } from 'react';
 import "./globals.css"
 
-import { postReq } from '@/app/IA_connection/IA'
 
-export default async function Home({
-  ki_positivos, 
-  ki_negativos
-} : {
-  ki_positivos : number
-  ki_negativos : number
-}) {
+export default async function Home () {
 
   const supabase = createServer();
   const { data, error } = await supabase.from("medico_users").select("*")
@@ -25,9 +18,8 @@ export default async function Home({
   }
 
   return (
-    <pre>
-      {JSON.stringify(data, null, 2)}
-        <body>
+    <body>
+        <main>
           <header className="header">
               <div className="welcome-message">¡Bienvenida, María Fernanda!</div>
               <div className="menu-toggle" id="menu-toggle">
@@ -37,25 +29,19 @@ export default async function Home({
               </div>
           </header>
           <section className='imagenes'>
-            <Image
-              src={"/imagenes/Celulas.png"}
-              alt=''
-              width={800}
-              height={150}
-            />
             <div>
               <h1>Dashboard</h1>
               <div>
                 <div>
-                  <h2>{ki_positivos}</h2>
+                  <h2>0</h2>
                   <h3>Ki-67 Positivos</h3>
                 </div>
                 <div>
-                  <h2>{ki_positivos * ki_negativos / 100}</h2>
+                  <h2>0%</h2>
                   <h3>Células Positivas</h3>
                 </div>
                 <div>
-                  <h2>{ki_negativos}</h2>
+                  <h2>0</h2>
                   <h3>Ki-67 Negativos</h3>
                 </div>
                 <div>
@@ -69,7 +55,6 @@ export default async function Home({
             </div>
           </section>
           <div className="container">
-              <Profile/>
               <a href="img2" className="img2">
                 <Image
                     src="/imagenes/Eliminar Img Tmñ Originaliacm.png"
@@ -78,8 +63,9 @@ export default async function Home({
                     height={100}
                   />
               </a>
+              <Profile/>
           </div>
-      </body>
-    </pre>
+      </main>
+    </body>
   );
 }

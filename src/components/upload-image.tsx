@@ -1,8 +1,10 @@
-"use client";
+
+"use client"
+
+
 import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
 import React, { useState } from 'react';
-
 
 // Componente ImageUploader
 export function ImageUploader() {
@@ -15,7 +17,6 @@ export function ImageUploader() {
             const objectUrl = URL.createObjectURL(file);
             setImageUrl(objectUrl);
 
-            // Limpia la URL del objeto cuando el componente se desmonte
             return () => {
                 URL.revokeObjectURL(objectUrl);
             };
@@ -24,37 +25,44 @@ export function ImageUploader() {
 
     return (
         <div>
-            <input id="file-input" type="file" onChange={handleFileChange} style={{ display: 'none' }} />
+             {imageUrl && <img src={imageUrl} alt="Imagen seleccionada" style={{ marginTop: '20px', maxWidth: '100%' }} />}
             <label htmlFor="file-input" style={{ cursor: 'pointer' }}>
                 <img src="/imagenes/Subir Imagen Tmñ Original.png" alt="Seleccionar archivo" style={{ width: '200px', height: 'auto' }} />
             </label>
+            <input id="file-input" type="file" onChange={handleFileChange} style={{ display: 'none' }} />
             {/* Muestra la imagen seleccionada si existe */}
-            {imageUrl && <img src={imageUrl} alt="Imagen seleccionada" style={{ marginTop: '20px', maxWidth: '100%' }} />}
         </div>
     );
 }
 
 // Exportación por defecto del componente Profile
-export default function Profile() {
-    const supabase = createBrowser();
+    export default function Profile() {
+        const supabase = createBrowser();
 
     // Manejar el evento de carga de archivos
     const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         const bucket = "FotosDB";
+
+        const { data, error } = await supabase.storage
+        .from(bucket)
+        .upload(file!.name, file as File);
+  
+
+        if(error) {
+            alert('Error uploading file.');
+            return;
+        }
             
         // Crear FormData
         const formData = new FormData();
         formData.append('file', file as Blob); // Agregar el archivo al FormData
 
-        // Enviar FormData al servidor
+        // Enviar FormData al servidor, http://localhost:8000https://fastapi-example-endl.onrender.com/upload-image/
         try {
-            const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image/', {
+            const response = await fetch ('https://fastapi-example-endl.onrender.com/upload-image/', {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
             });
 
             if (!response.ok) {
@@ -67,40 +75,11 @@ export default function Profile() {
             console.error('Error uploading file:', error);
         }
     };
-
+    
     return (
         <div>
-            <h1>Profile Page</h1>
             <ImageUploader />
+            <input type="file" onChange={uploadFile} />
         </div>
     );
 }
-
-/*async function uploadFile(file: File): Promise<string> {
-    if (!file) {
-      return 'Please select a file!';
-    }
-  
-    const formData = new FormData();
-    formData.append('file', file);
-  
-    try {
-      const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image/', {
-        method: 'POST',
-        body: formData,
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        return 'Upload successful: ' + JSON.stringify(data);
-      } else {
-        return 'Upload failed: ' + response.statusText;
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        return 'Error: ' + error.message;
-      } else {
-        return 'Unexpected error occurred';
-      }
-    }
-}*/
