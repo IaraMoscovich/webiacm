@@ -1,6 +1,5 @@
 "use client"
 
-import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
 import React, { useState } from 'react';
 
@@ -35,22 +34,13 @@ export function ImageUploader() {
 
 // Exportación por defecto del componente Profile
     export default function Profile() {
-        const supabase = createBrowser();
+
 
     // Manejar el evento de carga de archivos
     const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         const bucket = "FotosDB";
 
-        const { data, error } = await supabase.storage
-        .from(bucket)
-        .upload(file!.name, file as File);
-  
-
-        if(error) {
-            alert('Error uploading file.');
-            return;
-        }
             
         // Crear FormData
         const formData = new FormData();
