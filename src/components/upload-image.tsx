@@ -1,3 +1,4 @@
+"use client";
 import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
 import React, { useState } from 'react';
