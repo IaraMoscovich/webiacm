@@ -37,22 +37,13 @@ export function ImageUploader() {
 
 // Exportación por defecto del componente Profile
     export default function Profile() {
-        const supabase = createBrowser();
+
 
     // Manejar el evento de carga de archivos
     const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         const bucket = "FotosDB";
 
-        const { data, error } = await supabase.storage
-        .from(bucket)
-        .upload(file!.name, file as File);
-  
-
-        if(error) {
-            alert('Error uploading file.');
-            return;
-        }
             
         // Crear FormData
         const formData = new FormData();
@@ -60,7 +51,7 @@ export function ImageUploader() {
 
         // Enviar FormData al servidor, http://localhost:8000https://fastapi-example-endl.onrender.com/upload-image/
         try {
-            const response = await fetch ('https://fastapi-example-endl.onrender.com/upload-image/', {
+            const response = await fetch ('http://localhost:8000/upload-image/', {
                 method: 'POST',
                 body: formData,
             });
