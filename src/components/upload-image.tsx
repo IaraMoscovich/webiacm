@@ -1,6 +1,4 @@
-
 "use client"
-
 
 import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
@@ -9,6 +7,8 @@ import React, { useState } from 'react';
 // Componente ImageUploader
 export function ImageUploader() {
     const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const [result, setResult] = useState<any>(null);
+
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]; // Obtiene el archivo seleccionado
@@ -68,6 +68,7 @@ export function ImageUploader() {
             if (!response.ok) {
                 throw new Error('Failed to upload file.');
             }
+            
 
             alert('File uploaded successfully!');
         } catch (error) {
@@ -76,6 +77,7 @@ export function ImageUploader() {
         }
     };
     
+
     return (
         <div>
             <ImageUploader />
