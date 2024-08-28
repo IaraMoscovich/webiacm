@@ -68,12 +68,12 @@ body {
 }
 
 .container {
-  margin-top: 20px;
+  margin-top: 300px;
   display: flex;
   justify-content: space-around;
   flex-direction: row;
   width: 40%;
-  margin-left: 120px;
+  margin-left: 80px;
   padding-bottom: 200px;
 }
 

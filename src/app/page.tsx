@@ -60,7 +60,7 @@ export default async function Home () {
                     src="/imagenes/Eliminar Img Tmñ Originaliacm.png"
                     alt="button"
                     width={200}
-                    height={100}
+                    height={400}
                   />
               </a>
               <Profile/>
