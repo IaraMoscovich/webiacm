@@ -81,21 +81,20 @@ const DashboardPage: React.FC = () => {
             </div>
           </div>
 
-
           <div className="flex justify-center space-x-4 mt-4">
             <label className="cursor-pointer flex items-center">
               <input
+                id="file-input"
                 type="file"
                 accept="image/*"
                 className="hidden"
                 onChange={handleImageUpload}
               />
               <img
-                src="/imagenes/Subir Imagen .png" // Ruta de la imagen para subir
-                alt="Subir Imagen"
+                src="/imagenes/Subir Imagen Tmñ Original.png" // Ruta de la imagen para subir
+                alt="Seleccionar archivo"
                 className="w-12 h-12 mr-2"
               />
-            
             </label>
             <button
               className="flex items-center"
@@ -106,7 +105,6 @@ const DashboardPage: React.FC = () => {
                 alt="Eliminar Imagen"
                 className="w-12 h-12 mr-2"
               />
-             
             </button>
           </div>
         </div>
