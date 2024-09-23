@@ -5,8 +5,8 @@ import React, { useState } from "react";
 const DashboardPage: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [positiveCells, setPositiveCells] = useState<number>(40);
-  const [negativeCells, setNegativeCells] = useState<number>(80);
+  const [positiveCells, setPositiveCells] = useState<number>(0);
+  const [negativeCells, setNegativeCells] = useState<number>(0);
 
   function generateRandomNumber(): number {
     return Math.floor(Math.random() * 100);
