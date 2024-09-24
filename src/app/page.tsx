@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Profile from '@/components/upload-image';
 
 const DashboardPage: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
