@@ -6,6 +6,8 @@ import React, { useState } from 'react';
 
 // Exportación por defecto del componente Profile
     export default function Profile() {
+        const [result, setResult] = useState<{ positivos: number; negativos: number }>({ positivos: 0, negativos: 0 });
+
 
 
     // Manejar el evento de carga de archivos
@@ -31,11 +33,15 @@ import React, { useState } from 'react';
 
             const json_res = await response.json();
 
-            console.log(json_res.positivos);
-            console.log(json_res.negativos);
+            // Guardar resultados en localStorage
+            localStorage.setItem('resultados', JSON.stringify({
+                positivos: json_res.positivos,
+                negativos: json_res.negativos
+            }));
             
 
             alert('File uploaded successfully!');
+            window.location.reload();
         } catch (error) {
             alert('Error uploading file.');
             console.error('Error uploading file:', error);

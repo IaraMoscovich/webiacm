@@ -1,13 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Profile from '@/components/upload-image';
 
 const DashboardPage: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [positiveCells, setPositiveCells] = useState<number>(0);
-  const [negativeCells, setNegativeCells] = useState<number>(0);
+  const [result, setResult] = useState<{ positivos: number; negativos: number } | null>(null);
+
+    useEffect(() => {
+        const resultados = localStorage.getItem('resultados');
+        if (resultados) {
+            setResult(JSON.parse(resultados));
+        }
+    }, []);
 
   function generateRandomNumber(): number {
     return Math.floor(Math.random() * 100);
@@ -19,8 +25,8 @@ const DashboardPage: React.FC = () => {
       const reader = new FileReader();
       reader.onload = () => {
         setImage(reader.result as string);
-        setPositiveCells(generateRandomNumber());
-        setNegativeCells(generateRandomNumber());
+        result?.positivos
+        result?.negativos
       };
       reader.readAsDataURL(file);
     }
@@ -33,6 +39,8 @@ const DashboardPage: React.FC = () => {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
@@ -62,7 +70,9 @@ const DashboardPage: React.FC = () => {
           <div className="flex justify-between items-center">
             <div className="w-1/2 p-2">
               {image ? (
-                <img src={image} alt="Subida" className="w-full rounded-lg" />
+                <div>
+                  Hola
+                </div>
               ) : (
                 <div className="h-48 bg-gray-200 rounded-lg flex items-center justify-center">
           
@@ -71,10 +81,10 @@ const DashboardPage: React.FC = () => {
             </div>
             <div className="w-1/2 p-2 bg-pink-200 rounded-lg text-center">
               <div className="text-lg font-semibold">Dashboard</div>
-              <div className="text-3xl mt-2">{positiveCells} Ki-67 Positivos</div>
-              <div className="text-3xl mt-2">{negativeCells} Ki-67 Negativos</div>
+              <div className="text-3xl mt-2"> Ki-67 Positivos {result?.positivos} </div>
+              <div className="text-3xl mt-2"> Ki-67 Negativos {result?.negativos} </div>
               <div className="text-3xl mt-2">
-                {Math.round((positiveCells / (positiveCells + negativeCells)) * 100)}% Células positivas
+              Células positivas {Math.round((result?.positivos / (result?.positivos + result?.negativos)) * 100)}%
               </div>
               <button className="mt-4 bg-white text-pink-400 font-bold py-2 px-4 rounded-lg">
                 Gráfico
