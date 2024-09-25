@@ -28,6 +28,11 @@ import React, { useState } from 'react';
             if (!response.ok) {
                 throw new Error('Failed to upload file.');
             }
+
+            const json_res = await response.json();
+
+            console.log(json_res.positivos);
+            console.log(json_res.negativos);
             
 
             alert('File uploaded successfully!');
