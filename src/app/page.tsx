@@ -65,7 +65,7 @@ const DashboardPage: React.FC = () => {
                 <img src={image} alt="Subida" className="w-full rounded-lg" />
               ) : (
                 <div className="h-48 bg-gray-200 rounded-lg flex items-center justify-center">
-                  Sube una imagen
+          
                 </div>
               )}
             </div>
@@ -83,7 +83,7 @@ const DashboardPage: React.FC = () => {
           </div>
 
           <div className="flex justify-center space-x-4 mt-4">
-            <label className="cursor-pointer flex items-center">
+          <label className="cursor-pointer flex items-center">
               <input
                 id="file-input"
                 type="file"
@@ -97,6 +97,7 @@ const DashboardPage: React.FC = () => {
                 className="w-12 h-12 mr-2"
               />
             </label>
+          <Profile/>
             <button
               className="flex items-center"
               onClick={handleImageRemove}

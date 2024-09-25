@@ -4,37 +4,6 @@ import { createBrowser } from './supabase_client_client';
 import { ChangeEvent } from 'react';
 import React, { useState } from 'react';
 
-// Componente ImageUploader
-export function ImageUploader() {
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
-    const [result, setResult] = useState<any>(null);
-
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0]; // Obtiene el archivo seleccionado
-        if (file) {
-            // Crea una URL de objeto para la imagen
-            const objectUrl = URL.createObjectURL(file);
-            setImageUrl(objectUrl);
-
-            return () => {
-                URL.revokeObjectURL(objectUrl);
-            };
-        }
-    };
-
-    return (
-        <div>
-             {imageUrl && <img src={imageUrl} alt="Imagen seleccionada" style={{ marginTop: '20px', maxWidth: '100%' }} />}
-            <label htmlFor="file-input" style={{ cursor: 'pointer' }}>
-                <img src="/imagenes/Subir Imagen Tmñ Original.png" alt="Seleccionar archivo" style={{ width: '200px', height: 'auto' }} />
-            </label>
-            <input id="file-input" type="file" onChange={handleFileChange} style={{ display: 'none' }} />
-            {/* Muestra la imagen seleccionada si existe */}
-        </div>
-    );
-}
-
 // Exportación por defecto del componente Profile
     export default function Profile() {
 
@@ -71,7 +40,6 @@ export function ImageUploader() {
 
     return (
         <div>
-            <ImageUploader/>
             <input type="file" onChange={uploadFile} />
         </div>
     );
