@@ -15,10 +15,6 @@ const DashboardPage: React.FC = () => {
         }
     }, []);
 
-  function generateRandomNumber(): number {
-    return Math.floor(Math.random() * 100);
-  }
-
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
     if (file) {
