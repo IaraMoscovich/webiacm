@@ -7,8 +7,6 @@ import React, { useState } from 'react';
 // Exportación por defecto del componente Profile
     export default function Profile() {
         const [result, setResult] = useState<{ positivos: number; negativos: number }>({ positivos: 0, negativos: 0 });
-        /*const [image, setImage] = useState<string | null>(null);*/
-
 
     // Manejar el evento de carga de archivos
     const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
