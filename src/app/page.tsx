@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import Profile from '@/components/upload-image';
+import { ChangeEvent } from 'react';
 
 const DashboardPage: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [result, setResult] = useState<{ positivos: number; negativos: number } | null>(null);
+  const [result, setResult] = useState<{ positivos: number; negativos: number, image: string } | null>(null);
 
     useEffect(() => {
         const resultados = localStorage.getItem('resultados');
@@ -35,6 +36,57 @@ const DashboardPage: React.FC = () => {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+    // Manejar el evento de carga de archivos
+    const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        const bucket = "FotosDB";
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+              setImage(reader.result as string);
+              result?.positivos
+              result?.negativos
+            };
+            reader.readAsDataURL(file);
+        }
+           
+        const handleImageRemove = () => {
+            setImage(null);
+          };
+
+        // Crear FormData
+        const formData = new FormData();
+        formData.append('file', file as Blob); // Agregar el archivo al FormData
+
+        // Enviar FormData al servidor, http://localhost:8000https://fastapi-example-endl.onrender.com/upload-image/
+        try {
+            const response = await fetch ('http://localhost:8000/upload-image/', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to upload file.');
+            }
+
+            const json_res = await response.json();
+
+            // Guardar resultados en localStorage
+            localStorage.setItem('resultados', JSON.stringify({
+                positivos: json_res.positivos,
+                negativos: json_res.negativos,
+                imagen: json_res.image
+            }));
+            
+
+            alert('File uploaded successfully!');
+            window.location.reload();
+        } catch (error) {
+            alert('Error uploading file.');
+            console.error('Error uploading file:', error);
+        }
+    };
+    
 
 
 
@@ -67,7 +119,7 @@ const DashboardPage: React.FC = () => {
             <div className="w-1/2 p-2">
               {image ? (
                 <div>
-                  Hola
+                  <img src={image} alt="imagen" />
                 </div>
               ) : (
                 <div className="h-48 bg-gray-200 rounded-lg flex items-center justify-center">
@@ -89,6 +141,7 @@ const DashboardPage: React.FC = () => {
           </div>
 
           <div className="flex justify-center space-x-4 mt-4">
+          <input type="file" onChange={uploadFile}/>
           <label className="cursor-pointer flex items-center">
               <input
                 id="file-input"
@@ -97,13 +150,7 @@ const DashboardPage: React.FC = () => {
                 className="hidden"
                 onChange={handleImageUpload}
               />
-              <img
-                src="/imagenes/Subir Imagen Tmñ Original.png" // Ruta de la imagen para subir
-                alt="Seleccionar archivo"
-                className="w-12 h-12 mr-2"
-              />
             </label>
-          <Profile/>
             <button
               className="flex items-center"
               onClick={handleImageRemove}

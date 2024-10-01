@@ -6,14 +6,27 @@ import React, { useState } from 'react';
 
 // Exportación por defecto del componente Profile
     export default function Profile() {
+        const [image, setImage] = useState<string | null>(null);
         const [result, setResult] = useState<{ positivos: number; negativos: number }>({ positivos: 0, negativos: 0 });
 
     // Manejar el evento de carga de archivos
     const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         const bucket = "FotosDB";
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+              setImage(reader.result as string);
+              result?.positivos
+              result?.negativos
+            };
+            reader.readAsDataURL(file);
+        }
+           
+        const handleImageRemove = () => {
+            setImage(null);
+          };
 
-            
         // Crear FormData
         const formData = new FormData();
         formData.append('file', file as Blob); // Agregar el archivo al FormData
@@ -46,10 +59,4 @@ import React, { useState } from 'react';
         }
     };
     
-
-    return (
-        <div>
-            <input type="file" onChange={uploadFile} />
-        </div>
-    );
 }
