@@ -1,12 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&display=swap');
+
 
 html, body, :root {
   height: 100%;
   width: 100%;
 }
-
 
 body {
   background-image: url('/imagenes/IACM.png');
@@ -16,25 +17,34 @@ body {
   margin: 0;
   padding: 0;
 }
+.container {
+  display: flex;
+  justify-content: center; /* Para centrar el contenido */
+  align-items: center; /* Para centrar verticalmente */
+  margin-top: 50px; /* Ajusta según tus necesidades */
+}
 
 .header {
-  background-color: #EA95C4; /* Cambia este valor por el código de color que desees */
+  background-color: #EA95C4;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 20px;
+  padding: 20px;
   width: 100%;
-  box-sizing: border-box;
-  font-family: 'DM sans bold', sans-serif; /* Cambia 'Arial' por la fuente que prefieras */
+  font-family: 'DM sans bold', sans-serif;
   border-radius: 10px;
 }
 
-
+.dashboardContainer {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  height: 100vh;
+}
 
 .welcome-message {
   font-size: 18px;
-
-  color: white; /* Cambia el color del texto a blanco */
+  color: white;
 }
 
 .menu-toggle {
@@ -77,26 +87,14 @@ body {
   padding-bottom: 200px;
 }
 
-.img1,
-.img2 {
+.img1, .img2 {
   width: 280px;
   height: 111px;
 }
 
-.img1 {
-  top: 550px;
-  left: 200px;
-}
-
-.img2 {
-  top: 550px;
-  left: 550px;
-}
-
-.imagenes{
+.imagenes {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   margin-top: 50px;
-
 }
