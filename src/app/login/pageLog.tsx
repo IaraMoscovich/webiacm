@@ -1,6 +1,6 @@
 // src/Login.tsx
 import React, { useState } from 'react';
-import { supabase } from '';
+import { supabase } from 'supabase';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
