@@ -108,7 +108,7 @@ const DashboardPage: React.FC = () => {
       </header>
 
       <main className="flex flex-col items-center">
-        <div className="flex justify-between items-center w-full max-w-4xl my-4">
+        <div className="flex justify-between items-center w-full max-w-4xl my-2">
           <div className="flex flex-col w-1/2 p-2">
             {image ? (
               <div className="h-80 bg-gray-200 rounded-lg flex items-center justify-center">
@@ -121,7 +121,7 @@ const DashboardPage: React.FC = () => {
             )}
           </div>
 
-          <div className="flex flex-col w-1/2 p-2 text-center" style={{ backgroundColor: '#EA95C4', color: 'white', fontFamily: 'DM Sans, sans-serif', width: '400px', height: '400px' }}>
+          <div className="flex flex-col w-4 p-2 text-center" style={{ backgroundColor: '#EA95C4', color: 'white', fontFamily: 'DM Sans, sans-serif', width: '400px', height: '250px' }}>
             <div className="text-lg font-semibold">Dashboard</div>
             <div className="text-4xl mt-2"> Ki-67 Positivos {result?.positivos} </div>
             <div className="text-4xl mt-2"> Ki-67 Negativos {result?.negativos} </div>
@@ -132,12 +132,12 @@ const DashboardPage: React.FC = () => {
         </div>
 
         {/* Botones de subir y eliminar imagen */}
-        <div className="flex justify-start space-x-16 mt-4" style={{ marginLeft: "-50%", marginTop: "120px" }}> {/* Ajusta aquí los márgenes */}
+        <div className="flex justify-start space-x-16 " style={{ marginLeft: "-50%", marginTop: "-10px" }}> {/* Ajusta aquí los márgenes */}
           <div className="flex flex-col items-center">
             <img
               src="/imagenes/Subir Imagen .png"
               alt="Subir Imagen"
-              className="w-25 h-25 cursor-pointer" // Cambiar a w-32 y h-32 para un tamaño consistente
+              className="w-15 h-20 cursor-pointer" // Cambiar a w-32 y h-32 para un tamaño consistente
               onClick={() => document.getElementById('file-input')?.click()}
             />
             <input
@@ -152,7 +152,7 @@ const DashboardPage: React.FC = () => {
             <img
               src="/imagenes/Eliminar Img.png"
               alt="Eliminar Imagen"
-              className="w-25 h-25 cursor-pointer" // Cambiar a w-32 y h-32 para un tamaño consistente
+              className="w-15 h-20 cursor-pointer" // Cambiar a w-32 y h-32 para un tamaño consistente
               onClick={handleImageRemove}
             />
           </div>
