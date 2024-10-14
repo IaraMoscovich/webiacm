@@ -1,182 +1,231 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import React, { useEffect, useState } from "react";
+import { createClient } from "../../components/supabaseClient"; // Asegúrate de que esta ruta sea correcta
 
-// Configura tu cliente Supabase
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const supabase = createClient();
 
-const Signup = () => {
-  const [fullName, setFullName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [hospital, setHospital] = useState('');
-  const [email, setEmail] = useState('');
+const Registro = () => {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [hospital, setHospital] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [checking, setChecking] = useState(false); // Nuevo estado para el chequeo
-  const [buttonText, setButtonText] = useState('Enviar Solicitud');
+  const [error, setError] = useState<string | null>(null);
+  const [mensaje, setMensaje] = useState<string | null>(null);
+  const [solicitudes, setSolicitudes] = useState<any[]>([]);
 
+  // Función para enviar la solicitud de registro
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setSuccess(false);
-    setChecking(true); // Indica que se está chequeando la solicitud
-    setButtonText('Enviando...'); // Cambiar el texto del botón al iniciar
 
-    // Guardar la solicitud en Supabase
-    const { error: requestError } = await supabase
-      .from('solicitudes')
-      .insert([{ full_name: fullName, phone, hospital, email }]);
+    try {
+      const { data, error } = await supabase
+        .from("solicitudes")
+        .insert([{ full_name: fullName, email, phone, hospital }]);
 
-    if (requestError) {
-      setError(requestError.message);
-      setButtonText('Enviar Solicitud'); // Restablecer texto del botón en caso de error
-    } else {
-      // Llama a la función para enviar un correo electrónico
-      await sendEmailToAdmin(fullName, email);
+      if (error) {
+        throw new Error("Error al enviar la solicitud: " + error.message);
+      }
+
       setSuccess(true);
-      setButtonText('Enviado');
+    } catch (error) {
+      setError(error.message);
     }
 
     setLoading(false);
-    
-    // Temporizador para ocultar el mensaje de chequeo y restablecer el botón
-    setTimeout(() => {
-      setChecking(false); // Finaliza el chequeo después de 3 segundos
-      if (!requestError) {
-        setButtonText('Enviar Solicitud'); // Restablece el texto del botón después de 3 segundos
-      }
-    }, 2000);
   };
 
-  // Función para enviar correo electrónico al administrador
-  const sendEmailToAdmin = async (fullName: string, email: string) => {
-    const response = await fetch('/api/sendEmail', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ fullName, email }),
-    });
+  // Función para obtener las solicitudes pendientes
+  const fetchSolicitudes = async () => {
+    const { data, error } = await supabase
+      .from("solicitudes")
+      .select("*")
+      .eq("status", "pendiente");
 
-    if (!response.ok) {
-      throw new Error('Error al enviar el correo');
+    if (error) {
+      console.error("Error al obtener las solicitudes:", error);
+    } else {
+      setSolicitudes(data);
     }
   };
 
+  // Función para aceptar la solicitud
+  const acceptRequest = async (id: string) => {
+    const { error } = await supabase
+      .from("solicitudes")
+      .update({ status: "aceptada" })
+      .eq("id", id);
+
+    if (error) {
+      console.error("Error al aceptar la solicitud:", error);
+      setMensaje("Error al aceptar la solicitud");
+    } else {
+      setMensaje("Solicitud aceptada con éxito");
+    }
+
+    fetchSolicitudes(); // Refresca la lista de solicitudes
+  };
+
+  // Carga las solicitudes al montar el componente
+  useEffect(() => {
+    fetchSolicitudes();
+  }, []);
+
   return (
     <div style={styles.container}>
-      <h2 style={styles.title}>Enviar Solicitud de Registro</h2>
-      {error && <p style={styles.error}>{error}</p>}
-      {success && <p style={styles.success}>Solicitud enviada con éxito!</p>}
-      {checking && <p style={styles.checking}>Chequeando solicitud...</p>} {/* Mensaje de chequeo */}
+      <h2 style={styles.title}>Formulario de Registro</h2>
+      {mensaje && <p style={styles.message}>{mensaje}</p>}
       <form onSubmit={handleSignup} style={styles.form}>
-        <div style={styles.inputGroup}>
-          <label htmlFor="fullName">Nombre y Apellido:</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label} htmlFor="fullName">
+            Nombre y Apellido
+          </label>
           <input
             type="text"
             id="fullName"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            required
             style={styles.input}
+            required
           />
         </div>
-        <div style={styles.inputGroup}>
-          <label htmlFor="phone">Celular:</label>
-          <input
-            type="text"
-            id="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-            style={styles.input}
-          />
-        </div>
-        <div style={styles.inputGroup}>
-          <label htmlFor="hospital">Hospital/Institución:</label>
-          <input
-            type="text"
-            id="hospital"
-            value={hospital}
-            onChange={(e) => setHospital(e.target.value)}
-            required
-            style={styles.input}
-          />
-        </div>
-        <div style={styles.inputGroup}>
-          <label htmlFor="email">Correo Electrónico:</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label} htmlFor="email">
+            Correo Electrónico
+          </label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
             style={styles.input}
+            required
           />
         </div>
-        <button type="submit" disabled={loading} style={styles.button}>
-          {buttonText}
+        <div style={styles.formGroup}>
+          <label style={styles.label} htmlFor="phone">
+            Celular
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            style={styles.input}
+            required
+          />
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label} htmlFor="hospital">
+            Hospital/Institución
+          </label>
+          <input
+            type="text"
+            id="hospital"
+            value={hospital}
+            onChange={(e) => setHospital(e.target.value)}
+            style={styles.input}
+            required
+          />
+        </div>
+        <button type="submit" style={styles.button} disabled={loading}>
+          {loading ? "Enviando..." : "Enviar Solicitud"}
         </button>
       </form>
+      {success && (
+        <p style={styles.successMessage}>
+          Solicitud enviada correctamente. Estamos revisando tu solicitud.
+        </p>
+      )}
+      {error && <p style={styles.errorMessage}>Error: {error}</p>}
+      <h2 style={styles.title}>Solicitudes Pendientes</h2>
+      <ul>
+        {solicitudes.map((solicitud) => (
+          <li key={solicitud.id} style={styles.solicitudItem}>
+            <p>
+              {solicitud.full_name} - {solicitud.email}
+            </p>
+            <button
+              onClick={() => acceptRequest(solicitud.id)}
+              style={styles.button}
+            >
+              Aceptar Solicitud
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-// Estilos simples
-const styles: { [key: string]: React.CSSProperties } = {
+// Estilos básicos para el componente
+const styles = {
   container: {
-    maxWidth: '400px',
-    margin: '0 auto',
-    padding: '20px',
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    backgroundColor: '#fff',
+    maxWidth: "600px",
+    margin: "0 auto",
+    padding: "20px",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+    fontFamily: "Arial, sans-serif",
   },
   title: {
-    textAlign: 'center',
-    marginBottom: '20px',
+    textAlign: "center" as const,
+    marginBottom: "20px",
+  },
+  message: {
+    color: "#28a745",
+    textAlign: "center" as const,
+    marginBottom: "20px",
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column" as const,
   },
-  inputGroup: {
-    marginBottom: '15px',
+  formGroup: {
+    marginBottom: "15px",
+  },
+  label: {
+    marginBottom: "5px",
+    fontWeight: "bold",
   },
   input: {
-    padding: '8px',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-    width: '100%',
-    boxSizing: 'border-box',
+    width: "100%",
+    padding: "10px",
+    fontSize: "16px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
   },
   button: {
-    padding: '10px',
-    borderRadius: '4px',
-    border: 'none',
-    backgroundColor: '#007bff',
-    color: 'white',
-    fontSize: '16px',
-    cursor: 'pointer',
+    padding: "10px",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "16px",
   },
-  error: {
-    color: 'red',
-    textAlign: 'center',
+  successMessage: {
+    color: "#28a745",
+    textAlign: "center" as const,
+    marginTop: "20px",
   },
-  success: {
-    color: 'green',
-    textAlign: 'center',
+  errorMessage: {
+    color: "#dc3545",
+    textAlign: "center" as const,
+    marginTop: "20px",
   },
-  checking: {
-    color: 'orange',
-    textAlign: 'center',
+  solicitudItem: {
+    marginBottom: "15px",
+    padding: "10px",
+    border: "1px solid #ddd",
+    borderRadius: "4px",
   },
 };
 
-export default Signup;
+export default Registro;
