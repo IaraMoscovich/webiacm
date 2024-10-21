@@ -123,19 +123,13 @@ const DashboardPage: React.FC = () => {
 
           <div className="flex flex-col w-4 p-2 text-center" style={{ backgroundColor: '#EA95C4', color: 'white', fontFamily: 'DM Sans, sans-serif', width: '400px', height: '250px' }}>
             <div className="text-lg font-semibold">Dashboard</div>
-            <div className="text-4xl mt-2"> Ki-67 Positivos 23 </div>
-            <div className="text-4xl mt-2"> Ki-67 Negativos 73 </div>
-            <div className="text-4xl mt-2">
-              Células positivas 31%
-            </div>
-          </div>
-        </div>
-
-{/*  <div className="text-4xl mt-2"> Ki-67 Positivos {result?.positivos} </div>
+            <div className="text-4xl mt-2"> Ki-67 Positivos {result?.positivos} </div>
             <div className="text-4xl mt-2"> Ki-67 Negativos {result?.negativos} </div>
             <div className="text-4xl mt-2">
               Células positivas {Math.round((result?.positivos / (result?.positivos + result?.negativos)) * 100)}%
-            </div>*/}
+            </div>
+          </div>
+        </div>
 
         {/* Botones de subir y eliminar imagen */}
         <div className="flex justify-start space-x-16 " style={{ marginLeft: "-50%", marginTop: "-10px" }}> {/* Ajusta aquí los márgenes */}
