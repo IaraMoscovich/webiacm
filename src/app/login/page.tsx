@@ -1,38 +1,55 @@
 "use client";
 
-import React, { useState } from 'react';
-import { createClient } from '@/components/supabaseClient'; 
-import { useRouter } from 'next/navigation'; // Asegúrate de importar desde 'next/navigation' en Next.js 13
+import React, { useState } from "react";
+import { createClient } from "@/components/supabaseClient";
+import { useRouter } from "next/navigation";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter(); // Inicializa el enrutador
-
+  const router = useRouter();
+  
   const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setError(null); // Limpia el error anterior
+    setError(null);
 
-    // Llamar a la función de inicio de sesión de Supabase
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      // Verificar si el usuario tiene la solicitud aceptada
+      const { data: solicitud, error: solicitudError } = await supabase
+        .from("solicitudes")
+        .select("status")
+        .eq("email", email)
+        .single();
 
-    if (error) {
-      setError(error.message);
-    } else {
-      alert('Login successful!');
-      // Redirige al usuario después de iniciar sesión exitosamente
-      router.push('/'); // Cambia la ruta al destino deseado
+      if (solicitudError) {
+        console.error("Error al consultar la solicitud:", solicitudError);
+        throw new Error("Error al verificar la solicitud.");
+      }
+
+      if (!solicitud) {
+        throw new Error("No se encontró una solicitud para este correo.");
+      } else if (solicitud.status !== "Aceptado") {
+        throw new Error("Tu solicitud no ha sido aprobada o fue denegada.");
+      }
+
+      // Intentar iniciar sesión en Supabase
+    
+
+    
+
+      alert("Login exitoso, bienvenido.");
+      router.push("/"); // Redirigir al usuario al dashboard
+    } catch (error) {
+      console.error("Error:", error);
+      setError((error as Error).message);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -61,7 +78,7 @@ const Login: React.FC = () => {
         </div>
         {error && <p style={styles.error}>{error}</p>}
         <button type="submit" style={styles.button} disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>

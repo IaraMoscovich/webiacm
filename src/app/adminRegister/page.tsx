@@ -48,11 +48,16 @@ const AdminPage: React.FC = () => {
         .from("solicitudes")
         .update({ status })
         .eq("id", id);
-
+      
       if (error) {
         throw new Error("Error al actualizar el estado: " + error.message);
       }
+      if (status === "Aceptado"){
+        // const { error } = await supabase
+        //   .from('solicitudes')
+        //   .insert({ full_name: full_name, name: 'Denmark' })
 
+      }
       // Actualiza la lista de solicitudes
       fetchSolicitudes();
       alert(`Solicitud ${status.toLowerCase()}.`);

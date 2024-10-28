@@ -16,6 +16,7 @@ const Registro = () => {
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  
   useEffect(() => {
     if (email) {
       const channel = supabase
@@ -52,7 +53,7 @@ const Registro = () => {
       if (error) {
         throw new Error("Error al enviar la solicitud: " + error.message);
       }
-
+      
       setSuccess(true);
     } catch (error) {
       setError((error as Error).message);
