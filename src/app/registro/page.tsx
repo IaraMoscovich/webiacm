@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import  bcrypt  from 'bcryptjs';
 import { createClient } from "../../components/supabaseClient"; // Verifica la ruta correcta
 
 const supabase = createClient();
@@ -44,11 +45,14 @@ const Registro = () => {
     setLoading(true);
     setError(null);
     setSuccess(false);
-
+    const hashed_password = await bcrypt.hash(password, 10);
+    console.log(password);
+    console.log("!ofsa");
+    console.log(hashed_password);
     try {
       const { data, error } = await supabase
         .from("solicitudes")
-        .insert([{ full_name: fullName, email, phone, hospital, password, status: "Pendiente" }]); // Añade la contraseña aquí
+        .insert([{ full_name: fullName, email, phone, hospital, password: hashed_password, status: "Pendiente" }]); // Añade la contraseña aquí
 
       if (error) {
         throw new Error("Error al enviar la solicitud: " + error.message);

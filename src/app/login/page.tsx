@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { createClient } from "@/components/supabaseClient";
 import { useRouter } from "next/navigation";
+import  bcrypt  from 'bcryptjs';
+
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -20,23 +22,29 @@ const Login: React.FC = () => {
 
     try {
       // Verificar si el usuario tiene la solicitud aceptada
+      console.log(email);
       const { data: solicitud, error: solicitudError } = await supabase
         .from("solicitudes")
-        .select("status")
+        .select()
         .eq("email", email)
-        .single();
+        
 
+      console.log(solicitud);
       if (solicitudError) {
         console.error("Error al consultar la solicitud:", solicitudError);
+        console.log(solicitudError);
         throw new Error("Error al verificar la solicitud.");
       }
 
       if (!solicitud) {
         throw new Error("No se encontró una solicitud para este correo.");
-      } else if (solicitud.status !== "Aceptado") {
+      } else if (solicitud[0].status !== "Aceptado") {
         throw new Error("Tu solicitud no ha sido aprobada o fue denegada.");
       }
-
+      let compared = await bcrypt.compareSync(password, solicitud[0].password);
+      if (!compared){
+        throw new Error("Contraseña incorrecta");
+      }
       // Intentar iniciar sesión en Supabase
     
 
