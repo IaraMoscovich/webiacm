@@ -51,8 +51,10 @@ const DashboardPage: React.FC = () => {
     const formData = new FormData();
     formData.append('file', file as Blob);
 
+    //http://localhost:8000/upload-image/
+
     try {
-      const response = await fetch('http://localhost:8000/upload-image/', {
+      const response = await fetch('https://fastapi-example-endl.onrender.com', {
         method: 'POST',
         body: formData,
       });
@@ -105,6 +107,7 @@ const DashboardPage: React.FC = () => {
             </button>
           </div>
         )}
+      
       </header>
 
       <main className="flex flex-col items-center">

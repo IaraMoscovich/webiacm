@@ -17,7 +17,7 @@ const Registro = () => {
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  
+  //a
   useEffect(() => {
     if (email) {
       const channel = supabase
