@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, CSSProperties } from "react";
 import { createClient } from "../../components/supabaseClient"; // Asegúrate de que esta ruta sea correcta
 
 const supabase = createClient();
@@ -127,7 +127,7 @@ const getStatusColor = (status: string) => {
 };
 
 // Estilos básicos para el componente
-const styles = {
+const styles: { [key: string]: CSSProperties } = {
   container: {
     maxWidth: "800px",
     margin: "0 auto",
@@ -135,24 +135,24 @@ const styles = {
     fontFamily: "Arial, sans-serif",
   },
   title: {
-    textAlign: "center" as const,
+    textAlign: "center",
     marginBottom: "20px",
   },
   errorMessage: {
     color: "#dc3545",
-    textAlign: "center" as const,
+    textAlign: "center",
     marginTop: "20px",
   },
   tableContainer: {
     maxHeight: "400px", // Altura máxima para la tabla
-    overflowY: "auto", // Habilita el desplazamiento vertical
+    overflowY: "auto", // Asegura que el valor es aceptado
     border: "1px solid #ccc",
     borderRadius: "8px",
     padding: "10px",
   },
   table: {
     width: "100%",
-    borderCollapse: "collapse" as const,
+    borderCollapse: "collapse",
   },
   button: {
     margin: "0 5px",

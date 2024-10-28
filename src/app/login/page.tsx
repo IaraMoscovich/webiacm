@@ -1,24 +1,25 @@
-"use client"
+"use client";
 
 import React, { useState } from 'react';
 import { createClient } from '@/components/supabaseClient'; 
+import { useRouter } from 'next/navigation'; // Asegúrate de importar desde 'next/navigation' en Next.js 13
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter(); // Inicializa el enrutador
 
-  // Llamada a la función para obtener el cliente de Supabase
   const supabase = createClient();
 
-  // Maneja el envío del formulario
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setError(null); // Limpia el error anterior
 
     // Llamar a la función de inicio de sesión de Supabase
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -26,8 +27,9 @@ const Login: React.FC = () => {
     if (error) {
       setError(error.message);
     } else {
-      setError(null);
       alert('Login successful!');
+      // Redirige al usuario después de iniciar sesión exitosamente
+      router.push('/'); // Cambia la ruta al destino deseado
     }
 
     setLoading(false);

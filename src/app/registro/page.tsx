@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { createClient } from "../../components/supabaseClient"; // Asegúrate de que esta ruta sea correcta
+import React, { useState, useEffect } from "react";
+import { createClient } from "../../components/supabaseClient"; // Verifica la ruta correcta
 
 const supabase = createClient();
 
@@ -10,11 +10,34 @@ const Registro = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [hospital, setHospital] = useState("");
+  const [password, setPassword] = useState(""); // Nuevo estado para la contraseña
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Función para enviar la solicitud de registro
+  useEffect(() => {
+    if (email) {
+      const channel = supabase
+        .channel('public:solicitudes')
+        .on(
+          'postgres_changes',
+          { event: 'UPDATE', schema: 'public', table: 'solicitudes', filter: `email=eq.${email}` },
+          (payload) => {
+            console.log('Cambio detectado:', payload);
+            if (payload.new.status !== "Pendiente") {
+              setStatus(payload.new.status);
+            }
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, [email]);
+
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -24,44 +47,17 @@ const Registro = () => {
     try {
       const { data, error } = await supabase
         .from("solicitudes")
-        .insert([{ full_name: fullName, email, phone, hospital, status: "Pendiente" }]);
+        .insert([{ full_name: fullName, email, phone, hospital, password, status: "Pendiente" }]); // Añade la contraseña aquí
 
       if (error) {
         throw new Error("Error al enviar la solicitud: " + error.message);
       }
 
-      // Enviar correo a la dirección especificada
-      await sendEmailNotification(fullName, email, phone, hospital);
-      setSuccess(true); // Mostrar mensaje de éxito
+      setSuccess(true);
     } catch (error) {
-      setError(error.message);
-    }
-
-    setLoading(false);
-  };
-
-  // Función para enviar el correo de notificación usando fetch
-  const sendEmailNotification = async (fullName: string, email: string, phone: string, hospital: string) => {
-    try {
-      const response = await fetch('/api/update-status', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: 'iacmia2024@gmail.com',
-          subject: 'Nueva Solicitud de Registro',
-          message: `Se ha recibido una nueva solicitud de registro:\n\nNombre: ${fullName}\nCorreo: ${email}\nTeléfono: ${phone}\nHospital: ${hospital}\n\nPuedes aceptar o denegar la solicitud.`,
-          status: "Aceptado"
-        }),
-      });
-
-      console.log(response);
-      if (!response.ok) {
-        throw new Error('Error al enviar la notificación por correo.');
-      }
-    } catch (error) {
-      console.error("Error al enviar el correo:", error);
+      setError((error as Error).message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,6 +66,10 @@ const Registro = () => {
       <h2 style={styles.title}>Formulario de Registro</h2>
       {success && <p style={styles.message}>Su solicitud está siendo verificada.</p>}
       {error && <p style={styles.errorMessage}>Error: {error}</p>}
+
+      {status === "Aceptado" && <p style={styles.acceptMessage}>¡Su solicitud ha sido aceptada! Ya puede ingresar.</p>}
+      {status === "Denegado" && <p style={styles.rejectMessage}>Su solicitud ha sido denegada.</p>}
+
       <form onSubmit={handleSignup} style={styles.form}>
         <div style={styles.formGroup}>
           <label style={styles.label} htmlFor="fullName">Nombre y Apellido</label>
@@ -115,6 +115,17 @@ const Registro = () => {
             required
           />
         </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label} htmlFor="password">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={styles.input}
+            required
+          />
+        </div>
         <button type="submit" style={styles.button} disabled={loading}>
           {loading ? "Enviando..." : "Enviar Solicitud"}
         </button>
@@ -123,57 +134,61 @@ const Registro = () => {
   );
 };
 
-// Estilos básicos para el componente
+// Estilos del componente
 const styles = {
   container: {
+    padding: "20px",
     maxWidth: "600px",
     margin: "0 auto",
-    padding: "20px",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-    fontFamily: "Arial, sans-serif",
   },
   title: {
     textAlign: "center" as const,
+    fontSize: "24px",
     marginBottom: "20px",
   },
   message: {
-    color: "#28a745",
     textAlign: "center" as const,
-    marginBottom: "20px",
+    color: "blue",
+  },
+  errorMessage: {
+    textAlign: "center" as const,
+    color: "red",
+  },
+  acceptMessage: {
+    color: "green",
+    textAlign: "center" as const,
+  },
+  rejectMessage: {
+    color: "red",
+    textAlign: "center" as const,
   },
   form: {
     display: "flex",
     flexDirection: "column" as const,
+    gap: "15px",
   },
   formGroup: {
-    marginBottom: "15px",
+    display: "flex",
+    flexDirection: "column" as const,
   },
   label: {
     marginBottom: "5px",
-    fontWeight: "bold",
+    fontSize: "14px",
   },
   input: {
-    width: "100%",
     padding: "10px",
     fontSize: "16px",
     borderRadius: "4px",
     border: "1px solid #ccc",
   },
   button: {
-    padding: "10px",
+    padding: "10px 15px",
     backgroundColor: "#007bff",
     color: "#fff",
     border: "none",
     borderRadius: "4px",
     cursor: "pointer",
     fontSize: "16px",
-  },
-  errorMessage: {
-    color: "#dc3545",
-    textAlign: "center" as const,
-    marginTop: "20px",
   },
 };
 
