@@ -51,10 +51,10 @@ const DashboardPage: React.FC = () => {
     const formData = new FormData();
     formData.append('file', file as Blob);
 
-    //http://localhost:8000/upload-image/
+    //http://localhost:8000/upload-image/https://fastapi-example-endl.onrender.com/upload-image/
 
     try {
-      const response = await fetch('https://fastapi-example-endl.onrender.com', {
+      const response = await fetch('http://localhost:8000/upload-image/', {
         method: 'POST',
         body: formData,
       });
@@ -129,7 +129,10 @@ const DashboardPage: React.FC = () => {
             <div className="text-4xl mt-2"> Ki-67 Positivos {result?.positivos} </div>
             <div className="text-4xl mt-2"> Ki-67 Negativos {result?.negativos} </div>
             <div className="text-4xl mt-2">
-              Células positivas {Math.round((result?.positivos / (result?.positivos + result?.negativos)) * 100)}%
+            Células positivas{' '}
+            {result?.positivos !== undefined && result?.negativos !== undefined
+            ? Math.round((result.positivos / (result.positivos + result.negativos)) * 100)
+            : 0}%
             </div>
           </div>
         </div>
