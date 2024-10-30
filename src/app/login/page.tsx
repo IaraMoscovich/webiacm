@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import { createClient } from "@/components/supabaseClient";
 import { useRouter } from "next/navigation";
-import  bcrypt  from 'bcryptjs';
-
+import bcrypt from 'bcryptjs';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -21,39 +20,24 @@ const Login: React.FC = () => {
     setError(null);
 
     try {
-      // Verificar si el usuario tiene la solicitud aceptada
       console.log(email);
       const { data: solicitud, error: solicitudError } = await supabase
         .from("solicitudes")
         .select()
-        .eq("email", email)
-        
+        .eq("email", email);
 
-      console.log(solicitud);
-      if (solicitudError) {
-        console.error("Error al consultar la solicitud:", solicitudError);
-        console.log(solicitudError);
-        throw new Error("Error al verificar la solicitud.");
-      }
+      if (solicitudError) throw new Error("Error al verificar la solicitud.");
 
-      if (!solicitud) {
-        throw new Error("No se encontró una solicitud para este correo.");
-      } else if (solicitud[0].status !== "Aceptado") {
+      if (!solicitud || solicitud[0].status !== "Aceptado") {
         throw new Error("Tu solicitud no ha sido aprobada o fue denegada.");
       }
-      let compared = await bcrypt.compareSync(password, solicitud[0].password);
-      if (!compared){
-        throw new Error("Contraseña incorrecta");
-      }
-      // Intentar iniciar sesión en Supabase
-    
 
-    
+      const compared = await bcrypt.compareSync(password, solicitud[0].password);
+      if (!compared) throw new Error("Contraseña incorrecta");
 
       alert("Login exitoso, bienvenido.");
-      router.push("/"); // Redirigir al usuario al dashboard
+      router.push("/");
     } catch (error) {
-      console.error("Error:", error);
       setError((error as Error).message);
     } finally {
       setLoading(false);
@@ -62,38 +46,49 @@ const Login: React.FC = () => {
 
   return (
     <div style={styles.container}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.inputGroup}>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-            required
-          />
-        </div>
-        <div style={styles.inputGroup}>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={styles.input}
-            required
-          />
-        </div>
-        {error && <p style={styles.error}>{error}</p>}
-        <button type="submit" style={styles.button} disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+      <h1 style={styles.header}>IACM</h1>
+      <div style={styles.loginBox}>
+        <h2 style={styles.title}>¡Bienvenido a IACM!</h2>
+        <h3 style={styles.subtitle}>Iniciar Sesión</h3>
+        <p style={styles.registerLink}>¿Aún no tenés cuenta? <a href="#">Solicitar Registro</a></p>
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <div style={styles.inputGroup}>
+            <input
+              type="email"
+              placeholder="Usuario o Contraseña"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={styles.input}
+              required
+            />
+          </div>
+          <div style={styles.inputGroup}>
+            <input
+              type="password"
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={styles.input}
+              required
+            />
+          </div>
+          <div style={styles.forgotPassword}>
+            <a href="#">Olvidé mi contraseña</a>
+          </div>
+          {error && <p style={styles.error}>{error}</p>}
+          <button type="submit" style={styles.button} disabled={loading}>
+            {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
+          </button>
+        </form>
+        <button style={styles.googleButton}>
+          <img src="/path/to/google-icon.png" alt="Google icon" style={styles.googleIcon} />
+          Iniciar Sesión con Google
         </button>
-      </form>
+      </div>
     </div>
   );
 };
 
-// Estilos en línea para el componente
 const styles = {
   container: {
     display: 'flex',
@@ -101,39 +96,95 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#fff',
+    position: 'relative' as 'relative',
+    padding: '0 20px',
+  },
+  header: {
+    fontSize: '48px',
+    color: '#EA95C4',
+    marginBottom: '20px',
+    fontWeight: 'bold' as 'bold',
+  },
+  loginBox: {
+    width: '100%',
+    maxWidth: '400px',
+    backgroundColor: '#fff',
+    padding: '30px',
+    boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.1)',
+    borderRadius: '10px',
+    textAlign: 'center' as 'center',
+  },
+  title: {
+    fontSize: '24px',
+    fontWeight: 'normal' as 'normal',
+    color: '#333',
+  },
+  subtitle: {
+    fontSize: '28px',
+    fontWeight: 'bold' as 'bold',
+    color: '#333',
+    marginTop: '10px',
+  },
+  registerLink: {
+    fontSize: '14px',
+    color: '#888',
+    margin: '10px 0 20px',
   },
   form: {
     display: 'flex',
     flexDirection: 'column' as 'column',
-    width: '300px',
-    backgroundColor: '#fff',
-    padding: '20px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-    borderRadius: '8px',
+    gap: '15px',
   },
   inputGroup: {
-    marginBottom: '15px',
+    display: 'flex',
+    flexDirection: 'column' as 'column',
   },
   input: {
     width: '100%',
-    padding: '10px',
+    padding: '12px',
     fontSize: '16px',
-    borderRadius: '4px',
+    borderRadius: '8px',
     border: '1px solid #ccc',
+    outline: 'none',
+  },
+  forgotPassword: {
+    textAlign: 'right' as 'right',
+    fontSize: '14px',
   },
   button: {
-    padding: '10px',
-    fontSize: '16px',
-    backgroundColor: '#007bff',
+    width: '100%',
+    padding: '12px',
+    fontSize: '18px',
+    backgroundColor: '#EA95C4',
     color: '#fff',
     border: 'none',
-    borderRadius: '4px',
+    borderRadius: '8px',
     cursor: 'pointer',
+    marginTop: '10px',
+  },
+  googleButton: {
+    width: '100%',
+    padding: '12px',
+    fontSize: '16px',
+    backgroundColor: '#F3E5F5',
+    color: '#333',
+    border: 'none',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '15px',
+  },
+  googleIcon: {
+    width: '20px',
+    marginRight: '10px',
   },
   error: {
     color: 'red',
-    marginBottom: '15px',
+    fontSize: '14px',
+    marginTop: '10px',
   },
 };
 
