@@ -50,9 +50,10 @@ const Login: React.FC = () => {
       <div style={styles.loginBox}>
         <h2 style={styles.title}>¡Bienvenido a IACM!</h2>
         <h3 style={styles.subtitle}>Iniciar Sesión</h3>
-        <p style={styles.registerLink}>¿Aún no tenés cuenta? <a href="#">Solicitar Registro</a></p>
+        <p style={styles.registerLink}>¿Aún no tenés cuenta? <a href="#" style={styles.link}>Solicitar Registro</a></p>
         <form onSubmit={handleSubmit} style={styles.form}>
           <div style={styles.inputGroup}>
+            <label style={styles.label}>Ingresá tu Email o Usuario</label>
             <input
               type="email"
               placeholder="Usuario o Contraseña"
@@ -63,6 +64,7 @@ const Login: React.FC = () => {
             />
           </div>
           <div style={styles.inputGroup}>
+            <label style={styles.label}>Ingresá tu Contraseña</label>
             <input
               type="password"
               placeholder="Contraseña"
@@ -73,7 +75,7 @@ const Login: React.FC = () => {
             />
           </div>
           <div style={styles.forgotPassword}>
-            <a href="#">Olvidé mi contraseña</a>
+            <a href="#" style={styles.link}>Olvidé mi contraseña</a>
           </div>
           {error && <p style={styles.error}>{error}</p>}
           <button type="submit" style={styles.button} disabled={loading}>
@@ -81,7 +83,7 @@ const Login: React.FC = () => {
           </button>
         </form>
         <button style={styles.googleButton}>
-          <img src="/path/to/google-icon.png" alt="Google icon" style={styles.googleIcon} />
+          <img src="imagenes/google.png" alt="Google icon" style={styles.googleIcon} />
           Iniciar Sesión con Google
         </button>
       </div>
@@ -99,30 +101,35 @@ const styles = {
     backgroundColor: '#fff',
     position: 'relative' as 'relative',
     padding: '0 20px',
+    backgroundImage: 'url("imagenes/IACMM.png")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
   },
   header: {
-    fontSize: '48px',
+    fontSize: '120px',
     color: '#EA95C4',
-    marginBottom: '20px',
+    marginBottom: '300px',
     fontWeight: 'bold' as 'bold',
   },
   loginBox: {
     width: '100%',
-    maxWidth: '400px',
+    maxWidth: '500px', // Más ancho
     backgroundColor: '#fff',
-    padding: '30px',
+    padding: '70px',
     boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.1)',
-    borderRadius: '10px',
+    borderRadius: '15px', // Más redondeado
     textAlign: 'center' as 'center',
+    marginTop: '-220px',
+    
   },
   title: {
-    fontSize: '24px',
-    fontWeight: 'normal' as 'normal',
+    fontSize: '20px', // Más pequeño
+    fontFamily: 'DM Sans, sans-serif',
     color: '#333',
   },
   subtitle: {
-    fontSize: '28px',
-    fontWeight: 'bold' as 'bold',
+    fontSize: '45px', // Más grande
+    fontFamily: 'DM Sans, sans-serif',
     color: '#333',
     marginTop: '10px',
   },
@@ -130,6 +137,9 @@ const styles = {
     fontSize: '14px',
     color: '#888',
     margin: '10px 0 20px',
+  },
+  link: {
+    color: '#EA95C4',
   },
   form: {
     display: 'flex',
@@ -140,6 +150,12 @@ const styles = {
     display: 'flex',
     flexDirection: 'column' as 'column',
   },
+  label: {
+    fontSize: '14px',
+    fontFamily: 'DM Sans, sans-serif',
+    color: '#333',
+    marginBottom: '5px',
+  },
   input: {
     width: '100%',
     padding: '12px',
@@ -147,6 +163,10 @@ const styles = {
     borderRadius: '8px',
     border: '1px solid #ccc',
     outline: 'none',
+    transition: 'border-color 0.3s',
+  },
+  inputFocused: {
+    border: '1px solid #EA95C4', // Borde rosa al seleccionar
   },
   forgotPassword: {
     textAlign: 'right' as 'right',
