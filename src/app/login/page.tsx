@@ -20,7 +20,6 @@ const Login: React.FC = () => {
     setError(null);
 
     try {
-      console.log(email);
       const { data: solicitud, error: solicitudError } = await supabase
         .from("solicitudes")
         .select()
@@ -41,6 +40,25 @@ const Login: React.FC = () => {
       setError((error as Error).message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Función para el restablecimiento de contraseña
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError("Por favor, ingresa tu correo electrónico para restablecer la contraseña.");
+      return;
+    }
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'http://localhost:3000/newpassword',
+      });
+      if (error) throw error;
+
+      alert("Se ha enviado un enlace de restablecimiento a tu correo.");
+    } catch (error) {
+      setError((error as Error).message);
     }
   };
 
@@ -75,7 +93,7 @@ const Login: React.FC = () => {
             />
           </div>
           <div style={styles.forgotPassword}>
-            <a href="#" style={styles.link}>Olvidé mi contraseña</a>
+            <a href="#" onClick={handleForgotPassword} style={styles.link}>Olvidé mi contraseña</a>
           </div>
           {error && <p style={styles.error}>{error}</p>}
           <button type="submit" style={styles.button} disabled={loading}>
@@ -113,22 +131,21 @@ const styles = {
   },
   loginBox: {
     width: '100%',
-    maxWidth: '500px', // Más ancho
+    maxWidth: '500px',
     backgroundColor: '#fff',
     padding: '70px',
     boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.1)',
-    borderRadius: '15px', // Más redondeado
+    borderRadius: '15px',
     textAlign: 'center' as 'center',
     marginTop: '-220px',
-    
   },
   title: {
-    fontSize: '20px', // Más pequeño
+    fontSize: '20px',
     fontFamily: 'DM Sans, sans-serif',
     color: '#333',
   },
   subtitle: {
-    fontSize: '45px', // Más grande
+    fontSize: '45px',
     fontFamily: 'DM Sans, sans-serif',
     color: '#333',
     marginTop: '10px',
@@ -164,9 +181,6 @@ const styles = {
     border: '1px solid #ccc',
     outline: 'none',
     transition: 'border-color 0.3s',
-  },
-  inputFocused: {
-    border: '1px solid #EA95C4', // Borde rosa al seleccionar
   },
   forgotPassword: {
     textAlign: 'right' as 'right',
