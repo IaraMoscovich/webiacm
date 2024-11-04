@@ -99,10 +99,8 @@ const Login: React.FC = () => {
             {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
           </button>
         </form>
-<<<<<<< Updated upstream
-     
-=======
->>>>>>> Stashed changes
+
+
       </div>
     </div>
      //  <button style={styles.googleButton}>   <img src="imagenes/google.png" alt="Google icon" style={styles.googleIcon} />    Iniciar Sesión con Google  </button>  
