@@ -43,7 +43,6 @@ const Login: React.FC = () => {
     }
   };
 
-  // Función para el restablecimiento de contraseña
   const handleForgotPassword = async () => {
     if (!email) {
       setError("Por favor, ingresa tu correo electrónico para restablecer la contraseña.");
@@ -63,7 +62,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.mainContainer}>
       <h1 style={styles.header}>IACM</h1>
       <div style={styles.loginBox}>
         <h2 style={styles.title}>¡Bienvenido a IACM!</h2>
@@ -74,7 +73,7 @@ const Login: React.FC = () => {
             <label style={styles.label}>Ingresá tu Email o Usuario</label>
             <input
               type="email"
-              placeholder="Usuario o Contraseña"
+              placeholder="Email o Usuario"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={styles.input}
@@ -100,17 +99,16 @@ const Login: React.FC = () => {
             {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
           </button>
         </form>
-        <button style={styles.googleButton}>
-          <img src="imagenes/google.png" alt="Google icon" style={styles.googleIcon} />
-          Iniciar Sesión con Google
-        </button>
+     
       </div>
     </div>
+     //  <button style={styles.googleButton}>   <img src="imagenes/google.png" alt="Google icon" style={styles.googleIcon} />    Iniciar Sesión con Google  </button>  
+     
   );
 };
 
 const styles = {
-  container: {
+  mainContainer: {
     display: 'flex',
     flexDirection: 'column' as 'column',
     alignItems: 'center',
@@ -126,8 +124,9 @@ const styles = {
   header: {
     fontSize: '120px',
     color: '#EA95C4',
-    marginBottom: '300px',
     fontWeight: 'bold' as 'bold',
+    marginBottom: '20px',
+    marginTop: '-100px',
   },
   loginBox: {
     width: '100%',
@@ -135,25 +134,35 @@ const styles = {
     backgroundColor: '#fff',
     padding: '70px',
     boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.1)',
-    borderRadius: '15px',
+    borderRadius: '20px',
     textAlign: 'center' as 'center',
-    marginTop: '-220px',
+    marginTop: '-10px',
   },
   title: {
     fontSize: '20px',
     fontFamily: 'DM Sans, sans-serif',
+    fontWeight: 'normal',
     color: '#333',
+    textAlign: 'left' as 'left',
+    marginLeft: '-38px',
+    marginTop: '-30px',
   },
   subtitle: {
-    fontSize: '45px',
+    fontSize: '48px',
     fontFamily: 'DM Sans, sans-serif',
+    fontWeight: '500',
     color: '#333',
-    marginTop: '10px',
+    letterSpacing: '-1.5px', // Menos espacio entre letras
+    marginTop: '-7px',
+    textAlign: 'left' as 'left',
+    marginLeft: '-38px',
   },
   registerLink: {
     fontSize: '14px',
     color: '#888',
-    margin: '10px 0 20px',
+    textAlign: 'left' as 'left',
+    marginLeft: '-38px',
+    marginTop: '-10px',
   },
   link: {
     color: '#EA95C4',
@@ -161,7 +170,7 @@ const styles = {
   form: {
     display: 'flex',
     flexDirection: 'column' as 'column',
-    gap: '15px',
+    gap: '40px',
   },
   inputGroup: {
     display: 'flex',
@@ -170,24 +179,32 @@ const styles = {
   label: {
     fontSize: '14px',
     fontFamily: 'DM Sans, sans-serif',
+    fontWeight: 'normal',
     color: '#333',
-    marginBottom: '5px',
+    marginBottom: '15px',
+    textAlign: 'left' as 'left',
+    marginLeft: '-38px',
+    marginTop: '25px',
   },
   input: {
-    width: '100%',
-    padding: '12px',
-    fontSize: '16px',
+    width: '115%',
+    padding: '15px',
+    fontSize: '12px',
     borderRadius: '8px',
     border: '1px solid #ccc',
     outline: 'none',
     transition: 'border-color 0.3s',
+    textAlign: 'left' as 'left',
+    marginLeft: '-38px',
   },
   forgotPassword: {
     textAlign: 'right' as 'right',
-    fontSize: '14px',
+    fontSize: '12px',
+    marginTop: '-28px',
+    marginRight: '-12px',
   },
   button: {
-    width: '100%',
+    width: '115%',
     padding: '12px',
     fontSize: '18px',
     backgroundColor: '#EA95C4',
@@ -195,7 +212,9 @@ const styles = {
     border: 'none',
     borderRadius: '8px',
     cursor: 'pointer',
-    marginTop: '10px',
+    marginTop: '-20 px',
+    marginLeft: '-38px',
+    
   },
   googleButton: {
     width: '100%',
