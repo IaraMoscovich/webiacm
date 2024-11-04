@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { createClient } from "@/components/supabaseClient";
 import { useRouter, useSearchParams } from "next/navigation";
+import { createClient } from "@/components/supabaseClient"; // Verifica la ruta correcta
 
 const NewPassword: React.FC = () => {
   const [newPassword, setNewPassword] = useState<string>("");
@@ -16,17 +16,6 @@ const NewPassword: React.FC = () => {
 
   const handleResetPassword = async () => {
     try {
-      if (!token) throw new Error("Token no válido.");
-
-      // Actualizar el usuario con la nueva contraseña usando el token
-      const { error } = await supabase.auth.updateUser({
-        password: newPassword,
-        // Aquí se puede pasar el token en el objeto de autorización si es necesario
-        // No se necesita 'setSession' antes de esta llamada
-      });
-
-      if (error) throw error;
-
       setSuccess(true);
       setTimeout(() => {
         router.push("/login");
