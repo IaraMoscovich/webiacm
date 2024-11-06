@@ -1,11 +1,12 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { ChangeEvent } from 'react';
 
 const DashboardPage: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [result, setResult] = useState<{ positivos: number; negativos: number, image: string } | null>(null);
+  const [result, setResult] = useState<{ positivos: number; negativos: number, imagenProcesada: string } | null>(null);
 
   useEffect(() => {
     const resultados = localStorage.getItem('resultados');
@@ -37,13 +38,10 @@ const DashboardPage: React.FC = () => {
 
   const uploadFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    const bucket = "FotosDB";
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
         setImage(reader.result as string);
-        result?.positivos;
-        result?.negativos;
       };
       reader.readAsDataURL(file);
     }
@@ -51,7 +49,7 @@ const DashboardPage: React.FC = () => {
     const formData = new FormData();
     formData.append('file', file as Blob);
 
-    //http://localhost:8000/upload-image/https://fastapi-example-endl.onrender.com/upload-image/
+  //http://localhost:8000https://fastapi-example-endl.onrender.com/upload-image/
 
     try {
       const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image/', {
@@ -68,14 +66,14 @@ const DashboardPage: React.FC = () => {
       localStorage.setItem('resultados', JSON.stringify({
         positivos: json_res.positivos,
         negativos: json_res.negativos,
-        imagen: json_res.image,
+        imagenProcesada: json_res.image,  // almacenar la imagen procesada
       }));
 
-      alert('Imágen subida correctamente. Procesando...');
+      alert('Imagen subida correctamente. Procesando...');
       window.location.reload();
     } catch (error) {
-      alert('Error procesando la imágen.');
-      console.error('Error procesando la imágen:', error);
+      alert('Error procesando la imagen.');
+      console.error('Error procesando la imagen:', error);
     }
   };
 
@@ -88,14 +86,14 @@ const DashboardPage: React.FC = () => {
         backgroundPosition: 'center',
       }}
     >
-      <header className="bg-[#EA95C4] text-white p-4 flex justify-between items-center relative rounded-lg"> {/* Cambiado a color EA95C4 */}
+      <header className="bg-[#EA95C4] text-white p-4 flex justify-between items-center relative rounded-lg">
         <h1 className="text-lg">¡Bienvenida, María Fernanda!</h1>
         <button className="text-white text-3xl" onClick={toggleMenu}>
           {menuOpen ? "✕" : "☰"}
         </button>
 
         {menuOpen && (
-          <div className="absolute top-0 left-0 w-full bg-[#EA95C4] p-4 z-10 flex justify-between items-center rounded-lg"> {/* Cambiado a color EA95C4 */}
+          <div className="absolute top-0 left-0 w-full bg-[#EA95C4] p-4 z-10 flex justify-between items-center rounded-lg">
             <h1 className="text-lg">¡Bienvenida, María Fernanda!</h1>
             <nav className="flex space-x-4">
               <a href="#" className="text-white">Home</a>
@@ -113,13 +111,13 @@ const DashboardPage: React.FC = () => {
       <main className="flex flex-col items-center">
         <div className="flex justify-between items-center w-full max-w-4xl my-2">
           <div className="flex flex-col w-1/2 p-2">
-            {image ? (
+            {result?.imagenProcesada ? (
               <div className="h-80 bg-gray-200 rounded-lg flex items-center justify-center">
-                <img src={image} alt="imagen" className="w-full h-full object-cover rounded-lg" />
+                <img src={`data:image/jpeg;base64,${result.imagenProcesada}`} alt="imagen procesada" className="w-full h-full object-cover rounded-lg" />
               </div>
             ) : (
               <div className="h-80 bg-gray-200 rounded-lg flex items-center justify-center">
-                {/* Imagen por defecto */}
+                {image && <img src={image} alt="imagen original" className="w-full h-full object-cover rounded-lg" />}
               </div>
             )}
           </div>
@@ -138,12 +136,12 @@ const DashboardPage: React.FC = () => {
         </div>
 
         {/* Botones de subir y eliminar imagen */}
-        <div className="flex justify-start space-x-16 " style={{ marginLeft: "-50%", marginTop: "-10px" }}> {/* Ajusta aquí los márgenes */}
+        <div className="flex justify-start space-x-16 " style={{ marginLeft: "-50%", marginTop: "-10px" }}>
           <div className="flex flex-col items-center">
             <img
               src="/imagenes/Subir Imagen .png"
               alt="Subir Imagen"
-              className="w-15 h-20 cursor-pointer" // Cambiar a w-32 y h-32 para un tamaño consistente
+              className="w-15 h-20 cursor-pointer"
               onClick={() => document.getElementById('file-input')?.click()}
             />
             <input
@@ -158,7 +156,7 @@ const DashboardPage: React.FC = () => {
             <img
               src="/imagenes/Eliminar Img.png"
               alt="Eliminar Imagen"
-              className="w-15 h-20 cursor-pointer" // Cambiar a w-32 y h-32 para un tamaño consistente
+              className="w-15 h-20 cursor-pointer"
               onClick={handleImageRemove}
             />
           </div>
