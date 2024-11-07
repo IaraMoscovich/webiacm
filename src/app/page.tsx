@@ -56,7 +56,7 @@ const DashboardPage: React.FC = () => {
     formData.append('file', file as Blob);
 
     try {
-      const response = await fetch('http://localhost:8000/upload-image/', {
+      const response = await fetch('https://fastapi-example-endl.onrender.com/upload-image/', {
         method: 'POST',
         body: formData,
       });

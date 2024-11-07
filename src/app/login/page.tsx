@@ -56,6 +56,7 @@ const Login: React.FC = () => {
       if (error) throw error;
 
       alert("Se ha enviado un enlace de restablecimiento a tu correo.");
+      router.push("/newpassword");
     } catch (error) {
       setError((error as Error).message);
     }
