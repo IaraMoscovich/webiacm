@@ -92,7 +92,7 @@ const DashboardPage: React.FC = () => {
     <div
       className="min-h-screen p-4"
       style={{
-        backgroundImage: 'url(/imagenes/fondo.png)',
+        backgroundImage: 'url(/imagenes/IACM.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}

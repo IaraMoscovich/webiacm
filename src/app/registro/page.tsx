@@ -141,10 +141,13 @@ const Registro = () => {
 
 // Estilos del componente
 const styles = {
-  container: {
-    padding: "20px",
+
+  
+  container: { 
+    padding: "20px",  
     maxWidth: "600px",
     margin: "0 auto",
+    
   },
   title: {
     textAlign: "center" as const,
