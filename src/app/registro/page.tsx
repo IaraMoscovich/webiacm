@@ -94,7 +94,7 @@ const Registro = () => {
         <h2 className="text-center text-2xl font-medium">¡Bienvenido a IACM!</h2>
         <h3 className="text-center text-xl font-bold mt-2">Solicitud de Registro</h3>
         <p className="text-center text-gray-500 text-sm">
-  ¿Llegaste por error?{" "}
+  ¿Ya tienes una cuenta?{" "}
   <a href="#" className="text-[#EA95C4] hover:text-[#EA95C4]/80">Iniciar Sesión</a>
 </p>
         {success && (
