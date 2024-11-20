@@ -68,7 +68,19 @@ const Login: React.FC = () => {
       <div style={styles.loginBox}>
         <h2 style={styles.title}>¡Bienvenido a IACM!</h2>
         <h3 style={styles.subtitle}>Iniciar Sesión</h3>
-        <p style={styles.registerLink}>¿Aún no tenés cuenta? <a href="#" style={styles.link}>Solicitar Registro</a></p>
+        <p style={styles.registerLink}>
+  ¿Aún no tenés cuenta?{" "}
+  <a
+    href="#"
+    style={styles.link}
+    onClick={(e) => {
+      e.preventDefault(); // Evita el comportamiento predeterminado del enlace
+      router.push("/registro"); // Cambia "/registro" por la ruta de tu página de registro
+    }}
+  >
+    Solicitar Registro
+  </a>
+</p>
         <form onSubmit={handleSubmit} style={styles.form}>
           <div style={styles.inputGroup}>
             <label style={styles.label}>Ingresá tu Email o Usuario</label>
