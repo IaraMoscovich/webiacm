@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { ChangeEvent } from "react";
+import { useRouter } from "next/navigation"; // Importa useRouter para la navegación
 
 const DashboardPage: React.FC = () => {
   const [image, setImage] = useState<string | null>(null); // Imagen original
@@ -12,6 +13,8 @@ const DashboardPage: React.FC = () => {
     imagenProcesada: string;
   } | null>(null);
   const [showProcessed, setShowProcessed] = useState(false);
+
+  const router = useRouter(); // Hook para manejar la navegación
 
   const handleImageRemove = () => {
     setImage(null);
@@ -136,15 +139,21 @@ const DashboardPage: React.FC = () => {
 
         {menuOpen && (
           <div className="absolute top-0 left-0 w-full bg-[#EA95C4] p-4 z-10 flex justify-between items-center rounded-lg">
-            <h1 className="text-lg">¡Bienvenida, María Fernanda!</h1>
+            <h1 className="text-lg">¡Bienvenido!</h1>
             <nav className="flex space-x-4">
-              <a href="#" className="text-white">
+              <a
+                href="#"
+                className="text-white"
+                onClick={() => router.push("/home")} // Navega a la página principal
+              >
                 Home
               </a>
               <a href="#" className="text-white">
                 Reporta un problema
               </a>
-              <a href="#" className="text-white">
+              <a href="#" className="text-white"
+               onClick={() => router.push("/login")} // Navega a iniciar sesion
+              >
                 Cerrar Sesión
               </a>
             </nav>
@@ -154,7 +163,6 @@ const DashboardPage: React.FC = () => {
           </div>
         )}
       </header>
-
 
       <main className="flex flex-col items-center">
         <div

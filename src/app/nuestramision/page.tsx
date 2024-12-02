@@ -71,6 +71,10 @@ const Home = () => {
           className="absolute top-16 right-8 bg-[#2B004E] rounded-lg shadow-lg p-5 text-white z-10"
         >
           <ul className="flex flex-col gap-3">
+          <li className="hover:text-[#EA95C4] cursor-pointer"
+            onClick={() => router.push('/home')} // Redirigir a home
+          >Home
+          </li>
             <li
               className="hover:text-[#EA95C4] cursor-pointer"
               onClick={() => router.push('/login')} // Redirigir a Iniciar Sesión
@@ -85,12 +89,10 @@ const Home = () => {
             </li>
             <li className="hover:text-[#EA95C4] cursor-pointer"
             onClick={() => router.push('/sobrenosotros')} // Redirigir a sobrenosotros
-            >Sobre Nosotros
+            >
+            Sobre Nosotros
             </li>
-            <li className="hover:text-[#EA95C4] cursor-pointer"
-            onClick={() => router.push('/nuestramision')} // Redirigir a Registrarse
-            >Nuestra Misión
-            </li>
+          
           </ul>
         </nav>
       )}
@@ -123,67 +125,49 @@ const Home = () => {
                 fontSize: '100px',
                 lineHeight: '1.1',
                 position: 'relative',
-                top: '20px',
-                left: '-30px',
+                top: '-20px',
+                left: '20px',
                 fontFamily: 'Poppins, sans-serif',
                 fontWeight: 600,
                 letterSpacing: '-5px',
               }}
             >
-              Patólogos:
+              Nuestra
             </h2>
             <h3
               className="font-bold leading-tight mt-2"
               style={{
                 fontSize: '90px',
                 position: 'relative',
-                top: '-10px',
-                left: '-30px',
+                top: '-30px',
+                left: '20px',
                 fontFamily: 'Poppins, sans-serif',
                 fontWeight: 600,
                 letterSpacing: '-5px',
               }}
             >
-              Bienvenidos a IACM
+              Misión.
             </h3>
-            <p
-              className="text-lg mt-4"
-              style={{
-                fontSize: '22px',
-                position: 'relative',
-                top: '5px',
-                left: '-25px',
-              }}
-            >
-              Somos la plataforma que busca ayudarlos día a día.
-            </p>
-            <button
-              className="mt-8 text-white font-semibold rounded-lg hover:bg-[#C0789E] transition-colors"
-              style={{
-                backgroundColor: '#EA95C4',
-                border: 'none',
-                padding: '10px 67px',
-                fontSize: 'px',
-                position: 'relative',
-                top: '-5px',
-                left: '50px',
-              }}
-              onClick={() => router.push('/registro')} // Redirigir a la página de registro
-            >
-              Ingresar
-            </button>
           </div>
         </div>
 
+        {/* Cuadrado Rosa con Texto */}
         <div
-          className="relative flex justify-end items-end"
-          style={{ marginLeft: 'auto', marginRight: '200px', marginTop: '-85px' }}
+          className="flex items-center justify-center rounded-2xl"
+          style={{
+            width: '1300px',
+            height: '260px',
+            backgroundColor: '#EA95C4',
+            color: 'white',
+            fontFamily: 'Poppins, sans-serif',
+            padding: '20px',
+            marginBottom:"60px"
+          }}
         >
-          <img
-            src="/imagenes/cinta.png"
-            alt="Cinta Rosa"
-            className="max-w-[521px] max-h-[773px] object-contain"
-          />
+          <p style={{ textAlign: 'center', fontSize: '32px' }}>
+          IACM quiere agilizar el proceso de conteo de Ki-67, repercutiendo de forma directa, en el tiempo desde que se hace la biopsia y se comienza el tratemiento. Esta ideado para anatomopatólogos, a quienes buscamos ayudar para que su labor se aliviane, y pueda ser mas eficiente.
+
+          </p>
         </div>
       </main>
     </div>
