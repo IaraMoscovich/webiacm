@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useState } from "react";
 import { createClient } from "@/components/supabaseClient";
@@ -23,16 +23,22 @@ const Login: React.FC = () => {
       const { data: solicitud, error: solicitudError } = await supabase
         .from("solicitudes")
         .select()
-        .eq("email", email);
+        .eq("email", email)
+        .single();  // Asegúrate de obtener solo un resultado
 
-      if (solicitudError) throw new Error("Error al verificar la solicitud.");
+      if (solicitudError || !solicitud) {
+        throw new Error("Error al verificar la solicitud o usuario no encontrado.");
+      }
 
-      if (!solicitud || solicitud[0].status !== "Aceptado") {
+      if (solicitud.status !== "Aceptado") {
         throw new Error("Tu solicitud no ha sido aprobada o fue denegada.");
       }
 
-      const compared = await bcrypt.compareSync(password, solicitud[0].password);
-      if (!compared) throw new Error("Contraseña incorrecta");
+      // Cambiar a bcrypt.compare que es asincrónico
+      const compared = await bcrypt.compare(password, solicitud.password);
+      if (!compared) {
+        throw new Error("Contraseña incorrecta");
+      }
 
       alert("Login exitoso, bienvenido.");
       router.push("/");
@@ -69,18 +75,18 @@ const Login: React.FC = () => {
         <h2 style={styles.title}>¡Bienvenido a IACM!</h2>
         <h3 style={styles.subtitle}>Iniciar Sesión</h3>
         <p style={styles.registerLink}>
-  ¿Aún no tenés cuenta?{" "}
-  <a
-    href="#"
-    style={styles.link}
-    onClick={(e) => {
-      e.preventDefault(); // Evita el comportamiento predeterminado del enlace
-      router.push("/registro"); // Cambia "/registro" por la ruta de tu página de registro
-    }}
-  >
-    Solicitar Registro
-  </a>
-</p>
+          ¿Aún no tenés cuenta?{" "}
+          <a
+            href="#"
+            style={styles.link}
+            onClick={(e) => {
+              e.preventDefault(); 
+              router.push("/registro"); 
+            }}
+          >
+            Solicitar Registro
+          </a>
+        </p>
         <form onSubmit={handleSubmit} style={styles.form}>
           <div style={styles.inputGroup}>
             <label style={styles.label}>Ingresá tu Email o Usuario</label>
@@ -112,12 +118,8 @@ const Login: React.FC = () => {
             {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
           </button>
         </form>
-
-
       </div>
     </div>
-     //  <button style={styles.googleButton}>   <img src="imagenes/google.png" alt="Google icon" style={styles.googleIcon} />    Iniciar Sesión con Google  </button>  
-     
   );
 };
 
@@ -228,25 +230,6 @@ const styles = {
     cursor: 'pointer',
     marginTop: '-20 px',
     marginLeft: '-38px',
-    
-  },
-  googleButton: {
-    width: '100%',
-    padding: '12px',
-    fontSize: '16px',
-    backgroundColor: '#F3E5F5',
-    color: '#333',
-    border: 'none',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: '15px',
-  },
-  googleIcon: {
-    width: '20px',
-    marginRight: '10px',
   },
   error: {
     color: 'red',

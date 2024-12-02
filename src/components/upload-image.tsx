@@ -32,7 +32,7 @@ import React, { useState } from 'react';
 
         // Enviar FormData al servidor, http://localhost:8000https://fastapi-example-endl.onrender.com/upload-image/
         try {
-            const response = await fetch ('https://fastapi-example-endl.onrender.com/upload-image/', {
+            const response = await fetch ('http://localhost:8000/upload-image/', {
                 method: 'POST',
                 body: formData,
             });
